@@ -1,0 +1,33 @@
+# ===============================
+#  QuickPick Main .htaccess
+# ===============================
+
+# Set index.php as default
+DirectoryIndex index.php
+
+# Enable URL rewriting
+RewriteEngine On
+
+# Prevent direct access to sensitive folders
+RewriteRule ^includes/ - [F,L]
+RewriteRule ^config/ - [F,L]
+RewriteRule ^uploads/ - [F,L]
+RewriteRule ^controllers/ - [F,L]
+
+# Optional: If you want clean URLs like /login or /orders/view
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+
+# Disable directory listing
+Options -Indexes
+
+# Allow static files
+<FilesMatch "\.(jpg|jpeg|png|gif|css|js|ico|webp|svg|woff|woff2)$">
+  Require all granted
+</FilesMatch>
+
+# Disable PHP execution in uploads
+<Directory "uploads">
+  php_flag engine off
+</Directory>
