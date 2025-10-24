@@ -1,3 +1,39 @@
+<?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+session_start();
+include("../includes/db_connect.php");
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $phone = $_POST["phone"];
+    $password = $_POST["password"];
+
+    $stmt = $conn->prepare("SELECT * FROM customers WHERE phoneNumber = ?");
+    $stmt->bind_param("s", $phone);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows === 1) {
+        $user = $result->fetch_assoc();
+
+        if (password_verify($password, $user['password'])) {
+            $_SESSION['customerID'] = $user['customerID'];
+            $_SESSION['name'] = $user['name'];
+
+            $conn->query("UPDATE customers SET status='Online' WHERE customerID=" . $user['customerID']);
+            echo "<script>alert('Login successful!'); window.location.href='../views/dashboard.php';</script>";
+        } else {
+            echo "<script>alert('Invalid password!'); window.history.back();</script>";
+        }
+    } else {
+        echo "<script>alert('Account not found!'); window.history.back();</script>";
+    }
+
+    $stmt->close();
+}
+$conn->close();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
