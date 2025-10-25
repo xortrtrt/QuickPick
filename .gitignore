@@ -4,7 +4,6 @@ includes/db_connect.php
 api/send_sms.php
 api/mapbox.php
 controllers/auth/verify_otp.php
-config/config.php
 # Composer & dependencies
 /vendor/
 
