@@ -1,0 +1,21 @@
+# Sensitive files
+config/quickpick-drive-key.json
+includes/db_connect.php
+controllers/auth/send_sms.php
+controllers/auth/verify_otp.php
+config/config.php
+
+# Composer & dependencies
+/vendor/
+
+# Temporary files
+*.log
+*.tmp
+*.bak
+.env
+
+# IDE and system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
