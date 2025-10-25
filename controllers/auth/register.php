@@ -1,7 +1,7 @@
 <?php
 session_start();
 include("../../includes/db_connect.php");
-include("../auth/send_sms.php");
+include(__DIR__ . '/../../api/send_sms.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'signup') {
     $name = trim($_POST["name"]);
