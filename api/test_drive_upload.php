@@ -11,13 +11,10 @@ try {
 
     $service = new Drive($client);
 
-    // ✅ Add this for Shared Drive support
     $driveOptions = ['supportsAllDrives' => true];
 
-    // 🔹 Replace with your actual folder ID in the Shared Drive
     $folderId = '1u-jS02bOBfGFP0dsi0sL_QS-wVlDhdl-';
 
-    // Verify the folder exists and is visible
     $folder = $service->files->get($folderId, [
         'fields' => 'id, name',
         'supportsAllDrives' => true

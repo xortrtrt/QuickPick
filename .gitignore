@@ -1,10 +1,10 @@
 # Sensitive files
 config/quickpick-drive-key.json
 includes/db_connect.php
-controllers/auth/send_sms.php
+api/send_sms.php
+api/mapbox.php
 controllers/auth/verify_otp.php
 config/config.php
-
 # Composer & dependencies
 /vendor/
 
@@ -19,3 +19,4 @@ config/config.php
 .idea/
 .DS_Store
 Thumbs.db
+
