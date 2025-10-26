@@ -1,0 +1,13 @@
+{
+    "name": "quickpick/project",
+    "description": "QuickPick grocery system",
+    "authors": [
+        {
+            "name": "xortrtrt",
+            "email": "23-32737@g.batstate-u.edu.ph"
+        }
+    ],
+    "require": {
+        "google/apiclient": "2.15"
+    }
+}
