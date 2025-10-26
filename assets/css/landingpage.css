@@ -1,0 +1,226 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  overflow-x: hidden;
+}
+
+.container-fluid {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: #f5f5f5;
+  padding: 0;
+}
+
+/* Wavy blue section with SVG path */
+.blue-section {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 65%;
+  height: 100%;
+  background: #0099ff;
+  clip-path: path(
+    "M 300 0 C 250 50, 200 100, 250 150 C 300 200, 200 250, 220 300 C 240 350, 280 400, 200 450 C 150 500, 250 550, 230 600 C 210 650, 180 700, 250 750 C 300 800, 220 850, 240 900 C 260 950, 280 980, 300 1000 L 2000 1000 L 2000 0 Z"
+  );
+  z-index: 1;
+}
+
+/* Alternative wavy design using custom path */
+.blue-section::before {
+  content: "";
+  position: absolute;
+  left: -80px;
+  top: 0;
+  width: 150px;
+  height: 100%;
+  background: #0099ff;
+  filter: blur(30px);
+  opacity: 0.6;
+}
+
+/* Navigation */
+.navbar {
+  position: absolute;
+  top: 40px;
+  right: 60px;
+  z-index: 3;
+}
+
+.navbar .nav-link {
+  color: white !important;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  margin-left: 30px;
+  transition: opacity 0.3s;
+}
+
+.navbar .nav-link:hover {
+  opacity: 0.8;
+}
+
+/* Home tab */
+.home-tab {
+  position: absolute;
+  top: 0;
+  left: 60px;
+  background: #0099ff;
+  color: white;
+  padding: 20px 30px;
+  clip-path: polygon(0 0, 100% 0, 100% 80%, 50% 100%, 0 80%);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+}
+
+/* Content section */
+.content-section {
+  position: absolute;
+  left: 60px;
+  top: 50%;
+  transform: translateY(-50%);
+  max-width: 500px;
+  z-index: 2;
+}
+
+.content-section h1 {
+  font-size: 48px;
+  color: #003d7a;
+  margin-bottom: 0;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.content-section h2 {
+  font-size: 48px;
+  color: #003d7a;
+  margin-bottom: 30px;
+  font-weight: 300;
+}
+
+.content-section p {
+  color: #666;
+  line-height: 1.8;
+  margin-bottom: 40px;
+  font-size: 15px;
+}
+
+.btn-custom {
+  background: #00d4ff;
+  color: white;
+  padding: 15px 35px;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  border: none;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.btn-custom:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 212, 255, 0.4);
+  color: white;
+}
+
+/* Center image */
+.center-image {
+  position: absolute;
+  right: 8%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 700px;
+  max-width: 55%;
+  z-index: 3;
+  animation: float 3s ease-in-out infinite;
+}
+
+/* @keyframes float {
+  0%,
+  100% {
+    transform: translateY(-50%);
+  }
+  50% {
+    transform: translateY(-55%);
+  }
+} */
+
+.center-image img {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.2));
+}
+
+/* Wavy SVG overlay for more organic waves */
+.wave-overlay {
+  display: none;
+}
+
+@media (max-width: 992px) {
+  .blue-section {
+    width: 100%;
+    height: 50%;
+    top: 50%;
+    clip-path: path(
+      "M 0 150 C 100 100, 200 120, 300 100 S 500 90, 600 110 S 800 100, 900 120 S 1100 110, 1200 100 S 1400 90, 1500 100 L 1500 1000 L 0 1000 Z"
+    );
+  }
+
+  .navbar {
+    top: auto;
+    bottom: 40px;
+    right: 50%;
+    transform: translateX(50%);
+  }
+
+  .navbar .nav-link {
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+
+  .content-section {
+    left: 30px;
+    top: 25%;
+    max-width: calc(100% - 60px);
+  }
+
+  .home-tab {
+    left: 30px;
+  }
+
+  .content-section h1 {
+    font-size: 36px;
+  }
+
+  .center-image {
+    right: 50%;
+    transform: translate(50%, -50%);
+    max-width: 60%;
+    top: 70%;
+  }
+}
+
+@media (max-width: 576px) {
+  .content-section h1 {
+    font-size: 28px;
+  }
+
+  .navbar {
+    bottom: 20px;
+  }
+
+  .navbar .nav-link {
+    font-size: 12px;
+    margin-left: 8px;
+    margin-right: 8px;
+  }
+}
+
+
