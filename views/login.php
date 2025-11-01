@@ -30,8 +30,32 @@
                             oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
                     </div>
 
-                    <input type="password" name="password" placeholder="Password" required />
-                    <input type="password" name="confirm" placeholder="Confirm Password" required />
+                    <div class="password-input-wrapper">
+                        <input id="signup-password" type="password" name="password" placeholder="Password" required />
+                        <i class="fas fa-eye password-toggle-icon" id="toggleSignupPassword"></i>
+                    </div>
+
+                    <div class="password-strength">
+                        <div class="password-strength-header">
+                            <span style="font-size: 11px;">Password Strength:</span>
+                            <span id="signup-strength-label"></span>
+                        </div>
+                        <div class="progress">
+                            <div id="signup-password-strength" class="progress-bar" role="progressbar"></div>
+                        </div>
+                        <ul class="password-strength-items">
+                            <li class="signup-low-upper-case">Lowercase &amp; Uppercase</li>
+                            <li class="signup-one-number">Number (0-9)</li>
+                            <li class="signup-one-special-char">Special character</li>
+                            <li class="signup-eight-character">8 characters min</li>
+                        </ul>
+                    </div>
+
+                    <div class="password-input-wrapper">
+                        <input id="signup-confirm-password" type="password" name="confirm" placeholder="Confirm Password" required />
+                        <i class="fas fa-eye password-toggle-icon" id="toggleSignupConfirmPassword"></i>
+                    </div>
+
                     <input type="hidden" name="action" value="signup" />
                     <button type="submit">Sign Up</button>
                 </form>

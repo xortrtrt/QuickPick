@@ -1,156 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuickPick Landing Page</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QuickPick - FAQs</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="/assets/css/faqs.css" />
-</head>
-<body>
+    <style></style>
+  </head>
+  <body>
+    <div class="page-transition fade-in"></div>
+
     <div class="container-fluid">
-        <!-- Home Tab -->
-        <a class="home-tab" href="/index.php">HOME</a>
+      <!-- Home Tab -->
+      <a class="home-tab" href="/index.php">HOME</a>
 
-        <!-- Blue wavy background -->
-        <div class="blue-section"></div>
+      <!-- Blue wavy background -->
+      <div class="blue-section"></div>
 
-        <div class="center-imageFaqs">
-            <img src="/assets/images/faqsDesign.png" alt="QuickPick FAQS Page Image">
-        </div>
-
-        <!-- Wavy overlay using SVG -->
-        <svg class="wave-overlay" viewBox="0 0 300 1000" preserveAspectRatio="none">
-            <path d="M 0 0 C 80 80, 20 120, 50 200 S 20 280, 60 350 S 10 420, 55 500 S 15 580, 65 650 S 5 720, 50 800 S 20 880, 40 950 L 40 1000 L 0 1000 Z" 
-                  fill="#0099ff" 
-                  opacity="0.3"/>
-            <path d="M 50 0 C 120 100, 60 150, 90 250 S 50 350, 100 450 S 40 550, 95 650 S 35 750, 90 850 S 50 920, 80 1000" 
-                  fill="none" 
-                  stroke="#ffffff" 
-                  stroke-width="2"
-                  opacity="0.4"/>
-            <path d="M 100 0 C 160 120, 100 180, 130 300 S 90 420, 140 550 S 70 680, 125 800 S 85 900, 120 1000" 
-                  fill="none" 
-                  stroke="#0099ff" 
-                  stroke-width="3"
-                  opacity="0.5"/>
-        </svg>
-
-        <!-- Navigation -->
-        <nav class="navbar">
-            <ul class="nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="#about">ABOUT US</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#contact">CONTACT</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#faq">FAQ</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/views/login.php">LOGIN</a>
-                </li>
-            </ul>
-        </nav>
-
-        <!-- Content -->
-        <div class="landing-container">
-  <div class="left-column">
-    <section class="faq-card">
-      <h2>Frequently Asked Questions</h2>
-
-      <div class="faq-item active">
-        <button class="faq-question">
-          <span>What is this website about?</span>
-          <span class="icon">-</span>
-        </button>
-        <div class="faq-answer">
-          <p>This website provides a simple and interactive way to explore and learn about various topics in a user-friendly manner.</p>
-        </div>
+      <!-- Center Image -->
+      <div class="center-image">
+        <img
+          src="/assets/images/faqsDesign.png"
+          alt="QuickPick FAQS Page Image"
+        />
       </div>
 
-      <div class="faq-item">
-        <button class="faq-question">
-          <span>Is this platform free to use?</span>
-          <span class="icon">+</span>
-        </button>
-        <div class="faq-answer">
-          <p>Yes, it's completely free. We believe everyone should have access to valuable information.</p>
-        </div>
-      </div>
+      <!-- Navigation -->
+      <nav class="navbar">
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link" href="#about">ABOUT US</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#contact">CONTACT</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#faq">FAQ</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/views/login.php">LOGIN</a>
+          </li>
+        </ul>
+      </nav>
 
-      <div class="faq-item">
-        <button class="faq-question">
-          <span>Do I need to create an account?</span>
-          <span class="icon">+</span>
-        </button>
-        <div class="faq-answer">
-          <p>No, you can browse freely. Account creation may only be needed for advanced features later on.</p>
-        </div>
-      </div>
+      <!-- FAQ Content -->
+      <div class="faq-content-wrapper">
+        <section class="faq-card">
+          <h2>Frequently Asked Questions</h2>
 
-      <div class="faq-item">
-        <button class="faq-question">
-          <span>Can I use this on my phone or tablet?</span>
-          <span class="icon">+</span>
-        </button>
-        <div class="faq-answer">
-          <p>Yes, it's fully responsive and works on all devices.</p>
-        </div>
-      </div>
+          <div class="faq-item">
+            <button class="faq-question">
+              <span>What is QuickPick?</span>
+              <span class="icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>
+                QuickPick is an online grocery platform that lets you order
+                groceries from nearby stores and pick them up with ease.
+              </p>
+            </div>
+          </div>
 
-      <div class="faq-item">
-        <button class="faq-question">
-          <span>How can I contact the developers or give feedback?</span>
-          <span class="icon">+</span>
-        </button>
-        <div class="faq-answer">
-          <p>You can use the contact form or email us at example@email.com.</p>
-        </div>
-      </div>
-    </section>
-  </div>
+          <div class="faq-item">
+            <button class="faq-question">
+              <span>How does QuickPick work?</span>
+              <span class="icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>
+                Simply browse products, add them to your cart, choose a store,
+                and place your order. You'll be notified when it's ready for
+                pickup.
+              </p>
+            </div>
+          </div>
 
-  <div class="right-column">
-    <!-- keep your right-side illustration / SVG here (blue part) -->
-    <div class="illustration-placeholder"></div>
-  </div>
-</div>
+          <div class="faq-item">
+            <button class="faq-question">
+              <span>Is QuickPick secure?</span>
+              <span class="icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>
+                Yes! QuickPick keeps your account and order details safe through
+                reliable security features.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              <span>Do I need to pay online?</span>
+              <span class="icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>
+                No, all payments are made in-store upon pickup for your
+                convenience and assurance.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question">
+              <span>Who can use QuickPick?</span>
+              <span class="icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p>
+                Anyone looking for a faster, safer, and more convenient grocery
+                shopping experience can use QuickPick!
+              </p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
 
     <script>
-  (function(){
-    // set initial heights for any active items
-    document.querySelectorAll('.faq-item').forEach(item=>{
-      const ans = item.querySelector('.faq-answer');
-      if(item.classList.contains('active')){
-        ans.style.maxHeight = ans.scrollHeight + 'px';
-      }
-    });
+      // FAQ accordion functionality
+      document.querySelectorAll(".faq-question").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const item = btn.closest(".faq-item");
+          const answer = item.querySelector(".faq-answer");
+          const icon = btn.querySelector(".icon");
 
-    document.querySelectorAll('.faq-question').forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        const item = btn.closest('.faq-item');
-        const answer = item.querySelector('.faq-answer');
-        const icon = btn.querySelector('.icon');
+          // Close all other items
+          document.querySelectorAll(".faq-item").forEach((otherItem) => {
+            if (otherItem !== item && otherItem.classList.contains("active")) {
+              otherItem.classList.remove("active");
+              otherItem.querySelector(".faq-answer").style.maxHeight = null;
+              otherItem.querySelector(".icon").textContent = "+";
+            }
+          });
 
-        // toggle the item
-        item.classList.toggle('active');
+          // Toggle current item
+          item.classList.toggle("active");
 
-        if(item.classList.contains('active')){
-          // open
-          answer.style.maxHeight = answer.scrollHeight + 'px';
-          icon.textContent = '-';
-        } else {
-          // close
-          answer.style.maxHeight = null;
-          icon.textContent = '+';
-        }
+          if (item.classList.contains("active")) {
+            answer.style.maxHeight = answer.scrollHeight + "px";
+            icon.textContent = "-";
+          } else {
+            answer.style.maxHeight = null;
+            icon.textContent = "+";
+          }
+        });
       });
-    });
-  })();
-</script>
+    </script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-</body>
+  </body>
 </html>
+ 

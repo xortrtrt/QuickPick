@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QuickPick - About Us</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(
+          120deg,
+          #00d4ff 0%,
+          #0099ff 50%,
+          #003d7a 100%
+        );
+        min-height: 100vh;
+        color: white;
+        scroll-behavior: smooth;
+      }
+
+      .about-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 100px 20px;
+        min-height: 100vh;
+      }
+
+      .glass-box {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border-radius: 20px;
+        padding: 50px 40px;
+        max-width: 800px;
+        text-align: center;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+
+      .glass-box h1 {
+        font-size: 42px;
+        font-weight: 800;
+        margin-bottom: 20px;
+      }
+
+      .glass-box p {
+        font-size: 18px;
+        color: rgba(255, 255, 255, 0.9);
+        line-height: 1.8;
+      }
+
+      .scroll-down {
+        margin-top: 40px;
+        font-size: 16px;
+        color: #00e6ff;
+        text-decoration: none;
+        font-weight: 600;
+        transition: 0.3s;
+      }
+
+      .scroll-down:hover {
+        color: #6dd5ed;
+      }
+
+      /* Team Section */
+      .team-section {
+        padding: 100px 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .section-title {
+        text-align: center;
+        color: white;
+        font-size: 48px;
+        font-weight: 800;
+        margin-bottom: 20px;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .section-subtitle {
+        text-align: center;
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 18px;
+        margin-bottom: 60px;
+        max-width: 600px;
+      }
+
+      .container {
+        max-width: 1400px;
+        width: 100%;
+      }
+
+      .team-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 40px;
+        justify-items: center;
+      }
+
+      .profile-card {
+        position: relative;
+        width: 320px;
+        height: 450px;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .profile-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+      }
+
+      .card-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        overflow: hidden;
+      }
+
+      .card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+      }
+
+      .card-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+        padding: 30px;
+        transform: translateY(100%);
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .profile-card:hover .card-overlay {
+        transform: translateY(0);
+      }
+
+      .card-name {
+        color: white;
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 10px;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.5s ease 0.1s;
+      }
+
+      .profile-card:hover .card-name {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .card-role {
+        color: #6dd5ed;
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 20px;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.5s ease 0.2s;
+      }
+
+      .profile-card:hover .card-role {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .contact-info {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.5s ease 0.3s;
+      }
+
+      .profile-card:hover .contact-info {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .contact-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: white;
+        font-size: 14px;
+        text-decoration: none;
+        transition: all 0.3s;
+      }
+
+      .contact-item:hover {
+        color: #6dd5ed;
+        transform: translateX(5px);
+      }
+
+      .contact-item i {
+        width: 24px;
+        font-size: 18px;
+        color: #6dd5ed;
+      }
+
+      @media (max-width: 768px) {
+        .glass-box {
+          padding: 30px 20px;
+        }
+
+        .glass-box h1 {
+          font-size: 32px;
+        }
+
+        .glass-box p {
+          font-size: 16px;
+        }
+
+        .section-title {
+          font-size: 36px;
+        }
+
+        .team-grid {
+          grid-template-columns: 1fr;
+          gap: 30px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- About Section -->
+    <section class="about-section">
+      <div class="glass-box">
+        <h1>About Us</h1>
+        <p>
+          We are a group of passionate third-year Information Technology
+          students from
+          <strong>Batangas State University - Lipa City Campus</strong>. Our
+          goal is to create innovative digital solutions that make everyday life
+          simpler and more efficient.
+        </p>
+        <p style="margin-top: 20px">
+          Our project, <strong>QuickPick</strong>, was developed to provide
+          users with a faster, smarter, and more convenient way to access and
+          organize essential information. We believe in leveraging technology to
+          improve accessibility, efficiency, and user experience. Through
+          QuickPick, we aim to bridge the gap between technology and
+          practicality — empowering users to do more with ease.
+        </p>
+        <a href="#team" class="scroll-down"
+          ><i class="fas fa-arrow-down"></i> Meet the Developers</a
+        >
+      </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team" class="team-section">
+      <h1 class="section-title">Meet Our Team</h1>
+      <p class="section-subtitle">
+        The passionate individuals behind QuickPick
+      </p>
+
+      <div class="container">
+        <div class="team-grid">
+          <!-- Profile Card 1 -->
+          <div class="profile-card">
+            <div class="card-image">
+              <img src="/assets/images/ced2.png" alt="Andor, Cedrick S." />
+            </div>
+            <div class="card-overlay">
+              <h2 class="card-name">Andor, Cedrick S.</h2>
+              <p class="card-role">Frontend Developer</p>
+              <div class="contact-info">
+                <a href="#" class="contact-item"
+                  ><i class="fab fa-linkedin"></i
+                  ><span>linkedin.com/in/cedandor</span></a
+                >
+                <a href="#" class="contact-item"
+                  ><i class="fab fa-instagram"></i><span>@andorced</span></a
+                >
+                <a href="#" class="contact-item"
+                  ><i class="fab fa-twitter"></i><span>@andorced</span></a
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Profile Card 2 -->
+          <div class="profile-card">
+            <div class="card-image">
+              <img src="path/to/your-image2.jpg" alt="Team Member 2" />
+            </div>
+            <div class="card-overlay">
+              <h2 class="card-name">Team Member 2</h2>
+              <p class="card-role">Designer</p>
+              <div class="contact-info">
+                <a href="#" class="contact-item"
+                  ><i class="fab fa-linkedin"></i
+                  ><span>linkedin.com/in/member2</span></a
+                >
+                <a href="#" class="contact-item"
+                  ><i class="fab fa-instagram"></i><span>@member2</span></a
+                >
+                <a href="#" class="contact-item"
+                  ><i class="fab fa-twitter"></i><span>@member2</span></a
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Profile Card 3 -->
+          <div class="profile-card">
+            <div class="card-image">
+              <img src="path/to/your-image3.jpg" alt="Team Member 3" />
+            </div>
+            <div class="card-overlay">
+              <h2 class="card-name">Team Member 3</h2>
+              <p class="card-role">Project Manager</p>
+              <div class="contact-info">
+                <a href="#" class="contact-item"
+                  ><i class="fab fa-linkedin"></i
+                  ><span>linkedin.com/in/member3</span></a
+                >
+                <a href="#" class="contact-item"
+                  ><i class="fab fa-instagram"></i><span>@member3</span></a
+                >
+                <a href="#" class="contact-item"
+                  ><i class="fab fa-twitter"></i><span>@member3</span></a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

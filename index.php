@@ -61,7 +61,7 @@
             <button class="btn btn-custom">LET'S GET STARTED!</button>
         </div>
     </div>
-
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
