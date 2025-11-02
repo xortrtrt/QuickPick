@@ -978,164 +978,84 @@
                 <a href="#" class="see-all-link">See more →</a>
             </div>
             <div class="products-grid">
-                <div class="product-card" data-product="1">
+                <div class="product-card" data-product-id="1" onclick="viewProduct(1)">
                     <div class="product-image"><span style="font-size: 60px;">🥬</span></div>
                     <div class="product-name">Beetroot</div>
                     <div class="product-subtitle">(Local shop)</div>
                     <div class="product-weight">500 gm.</div>
                     <div class="product-price">17<span class="price-decimal">.29</span><span class="price-currency">$</span></div>
-                    <div class="add-btn-container">
-                        <button class="add-btn" onclick="addFirstItem(1)">+</button>
-                        <div class="quantity-controls">
-                            <button class="qty-btn" onclick="decreaseQty(1)">−</button>
-                            <span class="qty-number" id="qty-1">1</span>
-                            <button class="qty-btn" onclick="increaseQty(1)">+</button>
-                        </div>
-                    </div>
                 </div>
 
-                <div class="product-card" data-product="2">
+                <div class="product-card" data-product-id="2" onclick="viewProduct(2)">
                     <div class="product-image"><span style="font-size: 60px;">🥑</span></div>
                     <div class="product-name">Italian Avocado</div>
                     <div class="product-subtitle">(Local shop)</div>
                     <div class="product-weight">500 gm.</div>
                     <div class="product-price">12<span class="price-decimal">.29</span><span class="price-currency">$</span></div>
-                    <div class="add-btn-container">
-                        <button class="add-btn" onclick="addFirstItem(2)">+</button>
-                        <div class="quantity-controls">
-                            <button class="qty-btn" onclick="decreaseQty(2)">−</button>
-                            <span class="qty-number" id="qty-2">1</span>
-                            <button class="qty-btn" onclick="increaseQty(2)">+</button>
-                        </div>
-                    </div>
                 </div>
 
-                <div class="product-card" data-product="3">
+                <div class="product-card" data-product-id="3" onclick="viewProduct(3)">
                     <div class="product-image"><span style="font-size: 60px;">🧀</span></div>
                     <div class="product-name">Szam amm</div>
                     <div class="product-subtitle">(Process food)</div>
                     <div class="product-weight">500 gm.</div>
                     <div class="product-price">14<span class="price-decimal">.29</span><span class="price-currency">$</span></div>
-                    <div class="add-btn-container">
-                        <button class="add-btn" onclick="addFirstItem(3)">+</button>
-                        <div class="quantity-controls">
-                            <button class="qty-btn" onclick="decreaseQty(3)">−</button>
-                            <span class="qty-number" id="qty-3">1</span>
-                            <button class="qty-btn" onclick="increaseQty(3)">+</button>
-                        </div>
-                    </div>
                 </div>
 
-                <div class="product-card" data-product="4">
+                <div class="product-card" data-product-id="4" onclick="viewProduct(4)">
                     <div class="product-image"><span style="font-size: 60px;">🥩</span></div>
                     <div class="product-name">Beef Minced</div>
                     <div class="product-subtitle">(Cut Box)</div>
                     <div class="product-weight">500 gm.</div>
                     <div class="product-price">16<span class="price-decimal">.22</span><span class="price-currency">$</span></div>
-                    <div class="add-btn-container">
-                        <button class="add-btn" onclick="addFirstItem(4)">+</button>
-                        <div class="quantity-controls">
-                            <button class="qty-btn" onclick="decreaseQty(4)">−</button>
-                            <span class="qty-number" id="qty-4">1</span>
-                            <button class="qty-btn" onclick="increaseQty(4)">+</button>
-                        </div>
-                    </div>
                 </div>
 
-                <div class="product-card" data-product="5">
+                <div class="product-card" data-product-id="5" onclick="viewProduct(5)">
                     <div class="product-image"><span style="font-size: 60px;">🥤</span></div>
                     <div class="product-name">Cold drinks</div>
                     <div class="product-subtitle">(Sprite)</div>
                     <div class="product-weight">500 gm.</div>
                     <div class="product-price">18<span class="price-decimal">.29</span><span class="price-currency">$</span></div>
-                    <div class="add-btn-container">
-                        <button class="add-btn" onclick="addFirstItem(5)">+</button>
-                        <div class="quantity-controls">
-                            <button class="qty-btn" onclick="decreaseQty(5)">−</button>
-                            <span class="qty-number" id="qty-5">1</span>
-                            <button class="qty-btn" onclick="increaseQty(5)">+</button>
-                        </div>
-                    </div>
                 </div>
 
-                <div class="product-card" data-product="6">
+                <div class="product-card" data-product-id="6" onclick="viewProduct(6)">
                     <div class="product-image"><span style="font-size: 60px;">🍗</span></div>
                     <div class="product-name">Plant Hunter</div>
                     <div class="product-subtitle">(Frozen pack)</div>
                     <div class="product-weight">500 gm.</div>
                     <div class="product-price">20<span class="price-decimal">.29</span><span class="price-currency">$</span></div>
-                    <div class="add-btn-container">
-                        <button class="add-btn" onclick="addFirstItem(6)">+</button>
-                        <div class="quantity-controls">
-                            <button class="qty-btn" onclick="decreaseQty(6)">−</button>
-                            <span class="qty-number" id="qty-6">1</span>
-                            <button class="qty-btn" onclick="increaseQty(6)">+</button>
-                        </div>
-                    </div>
                 </div>
 
-                <div class="product-card" data-product="7">
+                <div class="product-card" data-product-id="7" onclick="viewProduct(7)">
                     <div class="product-image"><span style="font-size: 60px;">🥕</span></div>
                     <div class="product-name">Deshi Gajor</div>
                     <div class="product-subtitle">(Local Carrot)</div>
                     <div class="product-weight">500 gm.</div>
                     <div class="product-price">19<span class="price-decimal">.29</span><span class="price-currency">$</span></div>
-                    <div class="add-btn-container">
-                        <button class="add-btn" onclick="addFirstItem(7)">+</button>
-                        <div class="quantity-controls">
-                            <button class="qty-btn" onclick="decreaseQty(7)">−</button>
-                            <span class="qty-number" id="qty-7">1</span>
-                            <button class="qty-btn" onclick="increaseQty(7)">+</button>
-                        </div>
-                    </div>
                 </div>
 
-                <div class="product-card" data-product="8">
+                <div class="product-card" data-product-id="8" onclick="viewProduct(8)">
                     <div class="product-image"><span style="font-size: 60px;">🥒</span></div>
                     <div class="product-name">Deshi Shosha</div>
                     <div class="product-subtitle">(Local Cucumb)</div>
                     <div class="product-weight">500 gm.</div>
                     <div class="product-price">04<span class="price-decimal">.29</span><span class="price-currency">$</span></div>
-                    <div class="add-btn-container">
-                        <button class="add-btn" onclick="addFirstItem(8)">+</button>
-                        <div class="quantity-controls">
-                            <button class="qty-btn" onclick="decreaseQty(8)">−</button>
-                            <span class="qty-number" id="qty-8">1</span>
-                            <button class="qty-btn" onclick="increaseQty(8)">+</button>
-                        </div>
-                    </div>
                 </div>
 
-                <div class="product-card" data-product="9">
+                <div class="product-card" data-product-id="9" onclick="viewProduct(9)">
                     <div class="product-image"><span style="font-size: 60px;">🍟</span></div>
                     <div class="product-name">Lays chips</div>
                     <div class="product-subtitle">(Bacon)</div>
                     <div class="product-weight">500 gm.</div>
                     <div class="product-price">21<span class="price-decimal">.29</span><span class="price-currency">$</span></div>
-                    <div class="add-btn-container">
-                        <button class="add-btn" onclick="addFirstItem(9)">+</button>
-                        <div class="quantity-controls">
-                            <button class="qty-btn" onclick="decreaseQty(9)">−</button>
-                            <span class="qty-number" id="qty-9">1</span>
-                            <button class="qty-btn" onclick="increaseQty(9)">+</button>
-                        </div>
-                    </div>
                 </div>
 
-                <div class="product-card" data-product="10">
+                <div class="product-card" data-product-id="10" onclick="viewProduct(10)">
                     <div class="product-image"><span style="font-size: 60px;">🥬</span></div>
                     <div class="product-name">Badhakopi</div>
                     <div class="product-subtitle">(Local Cabbage)</div>
                     <div class="product-weight">500 gm.</div>
                     <div class="product-price">09<span class="price-decimal">.29</span><span class="price-currency">$</span></div>
-                    <div class="add-btn-container">
-                        <button class="add-btn" onclick="addFirstItem(10)">+</button>
-                        <div class="quantity-controls">
-                            <button class="qty-btn" onclick="decreaseQty(10)">−</button>
-                            <span class="qty-number" id="qty-10">1</span>
-                            <button class="qty-btn" onclick="increaseQty(10)">+</button>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -1163,70 +1083,27 @@
 
 
     <script>
-        const cart = {};
-
-        function addFirstItem(id) {
-            const card = document.querySelector(`[data-product="${id}"]`);
-            cart[id] = 1;
-            card.querySelector('.add-btn').style.display = 'none';
-            card.querySelector('.quantity-controls').classList.add('active');
-            card.classList.add('selected');
-            animateToCart(card);
-            updateCart();
+        // Function to redirect to product detail page
+        function viewProduct(productId) {
+            // Redirect to product page with ID parameter
+            window.location.href = `/views/customer/product-details.php?id=${productId}`;
         }
 
-        function increaseQty(id) {
-            if (cart[id] < 10) {
-                cart[id]++;
-                document.getElementById(`qty-${id}`).textContent = cart[id];
-                animateToCart(document.querySelector(`[data-product="${id}"]`));
-                updateCart();
-            }
-        }
+        // Optional: Add hover effect enhancement
+        document.querySelectorAll('.product-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px)';
+            });
 
-        function decreaseQty(id) {
-            const card = document.querySelector(`[data-product="${id}"]`);
-            cart[id]--;
-            if (cart[id] === 0) {
-                delete cart[id];
-                card.querySelector('.quantity-controls').classList.remove('active');
-                card.querySelector('.add-btn').style.display = 'flex';
-                card.classList.remove('selected');
-            } else {
-                document.getElementById(`qty-${id}`).textContent = cart[id];
-            }
-            updateCart();
-        }
-
-        function animateToCart(card) {
-            const icon = card.querySelector('.product-image span').cloneNode(true);
-            const cardRect = card.getBoundingClientRect();
-            const cartRect = document.getElementById('headerCart').getBoundingClientRect();
-            icon.style.left = cardRect.left + cardRect.width / 2 + 'px';
-            icon.style.top = cardRect.top + cardRect.height / 2 + 'px';
-            icon.classList.add('flying-item');
-            const xEnd = cartRect.left + cartRect.width / 2 - cardRect.left - cardRect.width / 2;
-            const yEnd = cartRect.top + cartRect.height / 2 - cardRect.top - cardRect.height / 2;
-            icon.style.setProperty('--x-end', `${xEnd}px`);
-            icon.style.setProperty('--y-end', `${yEnd}px`);
-            icon.style.setProperty('--x-mid', `${xEnd/2}px`);
-            icon.style.setProperty('--y-mid', `${yEnd/2 - 100}px`);
-            document.body.appendChild(icon);
-            setTimeout(() => {
-                icon.remove();
-                document.getElementById('headerCart').classList.add('pulse');
-                setTimeout(() => document.getElementById('headerCart').classList.remove('pulse'), 400);
-            }, 800);
-        }
-
-        function updateCart() {
-            document.getElementById('cartBadge').textContent = Object.values(cart).reduce((a, b) => a + b, 0);
-        }
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
 
 
         (function() {
             const initialImages = [
-                '/assets/images/product1.png', 
+                '/assets/images/product1.png',
                 '/assets/images/product2.png',
                 '/assets/images/product3.png',
                 '/assets/images/product4.png'
@@ -1268,7 +1145,7 @@
             const rightBtn = document.querySelector('#discount-carousel .dc-right');
             const fileInput = document.getElementById('dcFileInput');
 
-            let images = initialImages.slice(); 
+            let images = initialImages.slice();
             let index = 0;
 
             function buildSlides() {

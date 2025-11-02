@@ -40,7 +40,7 @@
         <nav class="navbar">
             <ul class="nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="#about">ABOUT US</a>
+                    <a class="nav-link" href="/aboutus.html">ABOUT US</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#contact">CONTACT</a>
