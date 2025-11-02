@@ -890,6 +890,9 @@
                 <div class="d-flex align-items-center gap-4">
                     <div class="order-timer">⚡ Order now and get it within <span class="timer-highlight">15 min!</span></div>
                     <div class="header-icons">
+                        <div class="cart-icon-wrapper">
+                            <a href="pickup_location.php" class="icon-circle" id="location-icon">📍</a>
+                        </div>
                         <div class="cart-icon-wrapper" id="headerCart">
                             <div class="icon-circle">🛒</div><span class="cart-badge" id="cartBadge">0</span>
                         </div>
