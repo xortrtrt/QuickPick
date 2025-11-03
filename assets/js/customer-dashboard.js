@@ -1,4 +1,5 @@
 
+
         document.addEventListener("DOMContentLoaded", () => {
             // Product Redirect
             document.querySelectorAll('.product-card').forEach(card => {

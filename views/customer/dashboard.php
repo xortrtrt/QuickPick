@@ -1,3 +1,16 @@
+<?php
+session_start();
+if (!isset($_SESSION['customerID'])) {
+    header("Location: /views/login.php");
+    exit;
+}
+include("../../includes/db_connect.php");
+include('../../includes/functions.php');
+$products = getAvailableProducts($pdo, 8);
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,6 +22,7 @@
     <link rel="stylesheet" href="/assets/css/customer-dashboard.css">
 
 </head>
+
 
 <body>
     <header class="top-header">
@@ -84,7 +98,7 @@
         <div class="container-fluid">
             <div class="section-header">
                 <h2 class="section-title">Shop by Category</h2>
-                <a href="#" class="see-all-link">See all →</a>
+                <a href="catergories.php" class="see-all-link">See all →</a>
             </div>
             <div class="categories-scroll">
                 <div class="category-card">
@@ -105,17 +119,31 @@
         <div class="container-fluid">
             <div class="section-header">
                 <h2 class="section-title">You might need</h2>
-                <a href="#" class="see-all-link">See more →</a>
+                <a href="products.php" class="see-all-link">See more →</a>
             </div>
             <div class="products-grid">
-                <div class="product-card" data-product-id="1" onclick="viewProduct(1)">
-                    <div class="product-image"><span style="font-size: 60px;">🥬</span></div>
-                    <div class="product-name">Beetroot</div>
-                    <div class="product-subtitle">(Local shop)</div>
-                    <div class="product-weight">500 gm.</div>
-                    <div class="product-price">17<span class="price-decimal">.29</span><span class="price-currency">$</span></div>
-                </div>
+                <?php if (!empty($products)): ?>
+                    <?php foreach ($products as $row): ?>
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="/assets/images/products/<?php echo htmlspecialchars($row['imageURL']); ?>"
+                                    alt="<?php echo htmlspecialchars($row['productName']); ?>">
+                            </div>
+                            <div class="product-name"><?php echo htmlspecialchars($row['productName']); ?></div>
+                            <div class="product-subtitle"><?php echo htmlspecialchars($row['categoryName'] ?? 'Uncategorized'); ?></div>
+                            <div class="product-weight"><?php echo htmlspecialchars($row['unit']); ?></div>
+                            <div class="product-price">
+                                <span class="price-currency">₱</span><?php echo number_format($row['price'], 2); ?>
+                            </div>
+                            <button class="add-btn" data-id="<?php echo $row['productID']; ?>">+</button>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p>No products available at the moment.</p>
+                <?php endif; ?>
             </div>
+
+        </div>
         </div>
     </section>
     <!-- FEATURED DISCOUNTS -->
