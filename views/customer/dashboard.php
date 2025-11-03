@@ -7,6 +7,7 @@ if (!isset($_SESSION['customerID'])) {
 include("../../includes/db_connect.php");
 include('../../includes/functions.php');
 $products = getAvailableProducts($pdo, 8);
+$categories = getAvailableCategories($pdo, 2);
 
 ?>
 
@@ -98,20 +99,25 @@ $products = getAvailableProducts($pdo, 8);
         <div class="container-fluid">
             <div class="section-header">
                 <h2 class="section-title">Shop by Category</h2>
-                <a href="catergories.php" class="see-all-link">See all →</a>
+                <a href="/views/customer/categories.php" class="see-all-link">See all →</a>
             </div>
             <div class="categories-scroll">
-                <div class="category-card">
-                    <div class="category-icon">🥬</div>
-                    <div class="category-name">Vegetable</div>
-                    <div class="category-subtitle">Local market</div>
-                </div>
-                <div class="category-card">
-                    <div class="category-icon">🥖</div>
-                    <div class="category-name">Snacks & Breads</div>
-                    <div class="category-subtitle">In store delivery</div>
-                </div>
+                <?php if (!empty($categories)): ?>
+                    <?php foreach ($categories as $row): ?>
+                        <div class="category-card">
+                            <div class="category-image">
+                                no image yet
+                                <!-- <img src="/assets/images/categories/<?php echo htmlspecialchars($row['imageURL']); ?>" alt="<?php echo htmlspecialchars($row['categoryName']); ?>"> -->
+                            </div>
+                            <div class="category-name"><?php echo htmlspecialchars($row['categoryName']); ?></div>
+                            <div class="category-subtitle"><?php echo htmlspecialchars($row['description'] ?? 'Uncategorized'); ?></div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p>No products available at the moment.</p>
+                <?php endif; ?>
             </div>
+
         </div>
     </section>
     <!-- SAMPLE PRODUCTS -->
@@ -135,7 +141,6 @@ $products = getAvailableProducts($pdo, 8);
                             <div class="product-price">
                                 <span class="price-currency">₱</span><?php echo number_format($row['price'], 2); ?>
                             </div>
-                            <button class="add-btn" data-id="<?php echo $row['productID']; ?>">+</button>
                         </div>
                     <?php endforeach; ?>
                 <?php else: ?>

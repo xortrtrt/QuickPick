@@ -26,3 +26,24 @@ function getAvailableProducts($pdo, $limit = 8)
         return [];
     }
 }
+
+function getAvailableCategories($pdo, $limit = 8)
+{
+    try {
+        $stmt = $pdo->prepare("
+            SELECT 
+                categoryName,
+                description
+            FROM categories
+            WHERE isActive = 1
+            ORDER BY categoryID DESC
+            LIMIT :limit
+        ");
+        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log("Database error in getAvailableCategories(): " . $e->getMessage());
+        return [];
+    }
+}
