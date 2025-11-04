@@ -93,7 +93,7 @@ body {
   animation: float 3s ease-in-out infinite;
 }
 
-/* @keyframes float {
+@keyframes float {
         0%,
         100% {
           transform: translateY(-50%);
@@ -101,7 +101,7 @@ body {
         50% {
           transform: translateY(-55%);
         }
-      } */
+      } 
 
 .center-image img {
   width: 100%;
