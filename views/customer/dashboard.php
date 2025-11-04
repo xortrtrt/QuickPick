@@ -106,7 +106,7 @@ $categories = getAvailableCategories($pdo, 2);
                     <?php foreach ($categories as $row): ?>
                         <div class="category-card">
                             <div class="category-image">
-                                no image yet
+                                <!-- no image yet -->
                                 <!-- <img src="/assets/images/categories/<?php echo htmlspecialchars($row['imageURL']); ?>" alt="<?php echo htmlspecialchars($row['categoryName']); ?>"> -->
                             </div>
                             <div class="category-name"><?php echo htmlspecialchars($row['categoryName']); ?></div>
