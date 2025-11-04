@@ -1,363 +1,524 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>QuickPick - About Us</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-    />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      html {
-        scroll-behavior: smooth;
-      }
-
-      body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background: linear-gradient(
-          120deg,
-          #00d4ff 0%,
-          #0099ff 50%,
-          #003d7a 100%
-        );
-        min-height: 100vh;
-        color: white;
-        scroll-behavior: smooth;
-      }
-
-      .about-section {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 100px 20px;
-        min-height: 100vh;
-      }
-
-      .glass-box {
-        background: rgba(255, 255, 255, 0.15);
-        backdrop-filter: blur(15px);
-        -webkit-backdrop-filter: blur(15px);
-        border-radius: 20px;
-        padding: 50px 40px;
-        max-width: 800px;
-        text-align: center;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-      }
-
-      .glass-box h1 {
-        font-size: 42px;
-        font-weight: 800;
-        margin-bottom: 20px;
-      }
-
-      .glass-box p {
-        font-size: 18px;
-        color: rgba(255, 255, 255, 0.9);
-        line-height: 1.8;
-      }
-
-      .scroll-down {
-        margin-top: 40px;
-        font-size: 16px;
-        color: #00e6ff;
-        text-decoration: none;
-        font-weight: 600;
-        transition: 0.3s;
-      }
-
-      .scroll-down:hover {
-        color: #6dd5ed;
-      }
-
-      /* Team Section */
-      .team-section {
-        padding: 100px 20px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .section-title {
-        text-align: center;
-        color: white;
-        font-size: 48px;
-        font-weight: 800;
-        margin-bottom: 20px;
-        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-      }
-
-      .section-subtitle {
-        text-align: center;
-        color: rgba(255, 255, 255, 0.9);
-        font-size: 18px;
-        margin-bottom: 60px;
-        max-width: 600px;
-      }
-
-      .container {
-        max-width: 1400px;
-        width: 100%;
-      }
-
-      .team-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-        gap: 40px;
-        justify-items: center;
-      }
-
-      .profile-card {
-        position: relative;
-        width: 320px;
-        height: 450px;
-        border-radius: 20px;
-        overflow: hidden;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-        cursor: pointer;
-        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-      }
-
-      .profile-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
-      }
-
-      .card-image {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-size: cover;
-        background-position: center;
-        overflow: hidden;
-      }
-
-      .card-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center;
-      }
-
-      .card-overlay {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
-        padding: 30px;
-        transform: translateY(100%);
-        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-      }
-
-      .profile-card:hover .card-overlay {
-        transform: translateY(0);
-      }
-
-      .card-name {
-        color: white;
-        font-size: 28px;
-        font-weight: 700;
-        margin-bottom: 10px;
-        opacity: 0;
-        transform: translateY(20px);
-        transition: all 0.5s ease 0.1s;
-      }
-
-      .profile-card:hover .card-name {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      .card-role {
-        color: #6dd5ed;
-        font-size: 16px;
-        font-weight: 600;
-        margin-bottom: 20px;
-        opacity: 0;
-        transform: translateY(20px);
-        transition: all 0.5s ease 0.2s;
-      }
-
-      .profile-card:hover .card-role {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      .contact-info {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        opacity: 0;
-        transform: translateY(20px);
-        transition: all 0.5s ease 0.3s;
-      }
-
-      .profile-card:hover .contact-info {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      .contact-item {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        color: white;
-        font-size: 14px;
-        text-decoration: none;
-        transition: all 0.3s;
-      }
-
-      .contact-item:hover {
-        color: #6dd5ed;
-        transform: translateX(5px);
-      }
-
-      .contact-item i {
-        width: 24px;
-        font-size: 18px;
-        color: #6dd5ed;
-      }
-
-      @media (max-width: 768px) {
-        .glass-box {
-          padding: 30px 20px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        .glass-box h1 {
-          font-size: 32px;
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
         }
 
-        .glass-box p {
-          font-size: 16px;
+        .container-fluid {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            background: #f5f5f5;
+            padding: 0;
         }
 
-        .section-title {
-          font-size: 36px;
+        /* Wavy blue section */
+        .blue-section {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 65%;
+            height: 100%;
+            background: #0099ff;
+            clip-path: path("M 300 0 C 250 50, 200 100, 250 150 C 300 200, 200 250, 220 300 C 240 350, 280 400, 200 450 C 150 500, 250 550, 230 600 C 210 650, 180 700, 250 750 C 300 800, 220 850, 240 900 C 260 950, 280 980, 300 1000 L 2000 1000 L 2000 0 Z");
+            z-index: 1;
         }
 
-        .team-grid {
-          grid-template-columns: 1fr;
-          gap: 30px;
+        .blue-section::before {
+            content: "";
+            position: absolute;
+            left: -80px;
+            top: 0;
+            width: 150px;
+            height: 100%;
+            background: #0099ff;
+            filter: blur(30px);
+            opacity: 0.6;
         }
-      }
+
+        /* Profile carousel container */
+        .profile-carousel-wrapper {
+            position: absolute;
+            right: 60px;
+            top: 55%;
+            transform: translateY(-50%);
+            z-index: 3;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* Arrow buttons */
+        .carousel-arrow {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .carousel-arrow:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(1.1);
+        }
+
+        .carousel-arrow:active {
+            transform: scale(0.95);
+        }
+
+        /* Profile card carousel */
+        .profile-card-carousel {
+            position: relative;
+            width: 280px;
+            height: 380px;
+            overflow: hidden;
+        }
+
+        .profile-card {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            background: white;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.28);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transform: translateX(100%);
+            z-index: 0;
+        }
+
+        .profile-card.active {
+            opacity: 1;
+            transform: translateX(0);
+            transition: all 0.5s ease;
+            z-index: 2;
+        }
+
+        .profile-card.next {
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.5s ease;
+            z-index: 1;
+        }
+
+        .profile-card.prev {
+            opacity: 0;
+            transform: translateX(-100%);
+            transition: all 0.5s ease;
+            z-index: 1;
+        }
+
+        .profile-card.no-transition {
+            transition: none;
+        }
+
+        .profile-card::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 20px;
+            pointer-events: none;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        .profile-card .card-image {
+            width: 100%;
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 100px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .profile-card .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .profile-card .card-content {
+            padding: 20px;
+            text-align: center;
+            flex: 1;
+        }
+
+        .profile-card .card-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 6px;
+        }
+
+        .profile-card .card-role {
+            font-size: 14px;
+            color: #0099ff;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .profile-card .card-social {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 6px;
+        }
+
+        .profile-card .social-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2d3748;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .profile-card .social-icon:hover {
+            background: #0099ff;
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* Different gradient backgrounds for each card */
+        .card-image.bg-1 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .card-image.bg-2 {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .card-image.bg-3 {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        /* Navigation */
+        .navbar {
+            position: absolute;
+            top: 40px;
+            right: 60px;
+            z-index: 3;
+        }
+
+        .navbar .nav-link {
+            color: white !important;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            margin-left: 30px;
+            transition: opacity 0.3s;
+        }
+
+        .navbar .nav-link:hover {
+            opacity: 0.8;
+        }
+
+        /* Home tab */
+        .home-tab {
+            position: absolute;
+            top: 0;
+            left: 60px;
+            background: #0099ff;
+            color: white;
+            padding: 20px 30px;
+            clip-path: polygon(0 0, 100% 0, 100% 80%, 50% 100%, 0 80%);
+            z-index: 3;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-decoration: none;
+        }
+
+        /* About Us Content */
+        .about-content {
+            position: absolute;
+            left: 60px;
+            top: 50%;
+            transform: translateY(-50%);
+            max-width: 500px;
+            z-index: 2;
+        }
+
+        .about-content h1 {
+            font-size: 48px;
+            color: #003d7a;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+
+        .about-content p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            font-size: 16px;
+            text-align: justify;
+        }
+
+        .university {
+            color: #0099ff;
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .blue-section {
+                width: 100%;
+                height: 50%;
+                top: 50%;
+                clip-path: path("M 0 150 C 100 100, 200 120, 300 100 S 500 90, 600 110 S 800 100, 900 120 S 1100 110, 1200 100 S 1400 90, 1500 100 L 1500 1000 L 0 1000 Z");
+            }
+
+            .about-content {
+                left: 30px;
+                top: 20%;
+                transform: translateY(0);
+                max-width: calc(100% - 60px);
+            }
+
+            .about-content h1 {
+                font-size: 32px;
+            }
+
+            .about-content p {
+                font-size: 14px;
+            }
+
+            .profile-carousel-wrapper {
+                right: 50%;
+                top: 70%;
+                transform: translate(50%, -50%);
+            }
+
+            .profile-card-carousel {
+                width: 230px;
+                height: 330px;
+            }
+
+            .profile-card .card-image {
+                height: 200px;
+            }
+
+            .navbar {
+                top: auto;
+                bottom: 40px;
+                right: 50%;
+                transform: translateX(50%);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .about-content h1 {
+                font-size: 28px;
+            }
+
+            .navbar .nav-link {
+                font-size: 12px;
+                margin-left: 8px;
+                margin-right: 8px;
+            }
+
+            .profile-carousel-wrapper {
+                right: 20px;
+                gap: 10px;
+            }
+
+            .carousel-arrow {
+                width: 35px;
+                height: 35px;
+                font-size: 16px;
+            }
+
+            .profile-card-carousel {
+                width: 180px;
+                height: 260px;
+            }
+
+            .profile-card .card-image {
+                height: 140px;
+                font-size: 54px;
+            }
+
+            .profile-card .card-content {
+                padding: 15px;
+            }
+
+            .profile-card .card-name {
+                font-size: 16px;
+            }
+
+            .profile-card .card-role {
+                font-size: 12px;
+            }
+        }
     </style>
-  </head>
-  <body>
-    <!-- About Section -->
-    <section class="about-section">
-      <div class="glass-box">
-        <h1>About Us</h1>
-        <p>
-          We are a group of passionate third-year Information Technology
-          students from
-          <strong>Batangas State University - Lipa City Campus</strong>. Our
-          goal is to create innovative digital solutions that make everyday life
-          simpler and more efficient.
-        </p>
-        <p style="margin-top: 20px">
-          Our project, <strong>QuickPick</strong>, was developed to provide
-          users with a faster, smarter, and more convenient way to access and
-          organize essential information. We believe in leveraging technology to
-          improve accessibility, efficiency, and user experience. Through
-          QuickPick, we aim to bridge the gap between technology and
-          practicality — empowering users to do more with ease.
-        </p>
-        <a href="#team" class="scroll-down"
-          ><i class="fas fa-arrow-down"></i> Meet the Developers</a
-        >
-      </div>
-    </section>
+</head>
+<body>
+    <div class="container-fluid">
+        <!-- Home Tab -->
+        <a class="home-tab" href="/index.php">HOME</a>
 
-    <!-- Team Section -->
-    <section id="team" class="team-section">
-      <h1 class="section-title">Meet Our Team</h1>
-      <p class="section-subtitle">
-        The passionate individuals behind QuickPick
-      </p>
+        <!-- Blue wavy background -->
+        <div class="blue-section">
+            <!-- Profile carousel with arrows -->
+            <div class="profile-carousel-wrapper">
+                <button class="carousel-arrow" id="prevBtn" aria-label="Previous developer">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
 
-      <div class="container">
-        <div class="team-grid">
-          <!-- Profile Card 1 -->
-          <div class="profile-card">
-            <div class="card-image">
-              <img src="/assets/images/ced2.png" alt="Andor, Cedrick S." />
-            </div>
-            <div class="card-overlay">
-              <h2 class="card-name">Andor, Cedrick S.</h2>
-              <p class="card-role">Frontend Developer</p>
-              <div class="contact-info">
-                <a href="#" class="contact-item"
-                  ><i class="fab fa-linkedin"></i
-                  ><span>linkedin.com/in/cedandor</span></a
-                >
-                <a href="#" class="contact-item"
-                  ><i class="fab fa-instagram"></i><span>@andorced</span></a
-                >
-                <a href="#" class="contact-item"
-                  ><i class="fab fa-twitter"></i><span>@andorced</span></a
-                >
-              </div>
-            </div>
-          </div>
+                <div class="profile-card-carousel">
+                    <!-- Card 1 -->
+                    <div class="profile-card active">
+                        <div class="card-image bg-1">
+                            <img src="/assets/images/patback.png" alt="Mapa, Patric Clement C.">
+                        </div>
+                        <div class="card-content">
+                            <div class="card-name">Mapa, Patric Clement C.</div>
+                            <div class="card-role">Backend Developer</div>
+                            <div class="card-social">
+                                <a class="social-icon" href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+                                <a class="social-icon" href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                                <a class="social-icon" href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                            </div>
+                        </div>
+                    </div>
 
-          <!-- Profile Card 2 -->
-          <div class="profile-card">
-            <div class="card-image">
-              <img src="path/to/your-image2.jpg" alt="Team Member 2" />
-            </div>
-            <div class="card-overlay">
-              <h2 class="card-name">Team Member 2</h2>
-              <p class="card-role">Designer</p>
-              <div class="contact-info">
-                <a href="#" class="contact-item"
-                  ><i class="fab fa-linkedin"></i
-                  ><span>linkedin.com/in/member2</span></a
-                >
-                <a href="#" class="contact-item"
-                  ><i class="fab fa-instagram"></i><span>@member2</span></a
-                >
-                <a href="#" class="contact-item"
-                  ><i class="fab fa-twitter"></i><span>@member2</span></a
-                >
-              </div>
-            </div>
-          </div>
+                    <!-- Card 2 -->
+                    <div class="profile-card">
+                        <div class="card-image bg-2">
+                            <img src="/assets/images/ced2.png" alt="Developer Two">
+                        </div>
+                        <div class="card-content">
+                            <div class="card-name">Andor, Cedrick S.</div>
+                            <div class="card-role">Frontend Developer</div>
+                            <div class="card-social">
+                                <a class="social-icon" href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+                                <a class="social-icon" href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                                <a class="social-icon" href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                            </div>
+                        </div>
+                    </div>
 
-          <!-- Profile Card 3 -->
-          <div class="profile-card">
-            <div class="card-image">
-              <img src="path/to/your-image3.jpg" alt="Team Member 3" />
+                    <!-- Card 3 -->
+                    <div class="profile-card">
+                        <div class="card-image bg-3">
+                            <img src="/assets/images/pol.png" alt="Developer Three">
+                        </div>
+                        <div class="card-content">
+                            <div class="card-name">Benedicto, Paul Lemuel V.</div>
+                            <div class="card-role">Backend Developer</div>
+                            <div class="card-social">
+                                <a class="social-icon" href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+                                <a class="social-icon" href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                                <a class="social-icon" href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="carousel-arrow" id="nextBtn" aria-label="Next developer">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
             </div>
-            <div class="card-overlay">
-              <h2 class="card-name">Team Member 3</h2>
-              <p class="card-role">Project Manager</p>
-              <div class="contact-info">
-                <a href="#" class="contact-item"
-                  ><i class="fab fa-linkedin"></i
-                  ><span>linkedin.com/in/member3</span></a
-                >
-                <a href="#" class="contact-item"
-                  ><i class="fab fa-instagram"></i><span>@member3</span></a
-                >
-                <a href="#" class="contact-item"
-                  ><i class="fab fa-twitter"></i><span>@member3</span></a
-                >
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
-    </section>
-  </body>
+
+        <!-- Navigation -->
+        <nav class="navbar">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/aboutus.html">ABOUT US</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#contact">CONTACT</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/faqs.html">FAQ</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/views/login.php">LOGIN</a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- About Us Content -->
+        <div class="about-content">
+            <h1>About Us</h1>
+            <p>
+                We are a group of passionate third-year Information Technology students from 
+                <span class="university">Batangas State University - Lipa City Campus</span>. 
+                Our goal is to create innovative digital solutions that make everyday life simpler and more efficient.
+            </p>
+            <p>
+                Our project, <strong>QuickPick</strong>, was developed to provide users with a faster, smarter, 
+                and more convenient way to access and organize essential information. We believe in leveraging 
+                technology to improve accessibility, efficiency, and user experience.
+            </p>
+            <p>
+                Through QuickPick, we aim to bridge the gap between technology and practicality — 
+                empowering users to do more with ease.
+            </p>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let currentIndex = 0;
+        const cards = document.querySelectorAll('.profile-card');
+        const totalCards = cards.length;
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        function updateCarousel() {
+            cards.forEach((card, index) => {
+                card.classList.remove('active', 'prev');
+                if (index === currentIndex) {
+                    card.classList.add('active');
+                } else if (index < currentIndex) {
+                    card.classList.add('prev');
+                }
+            });
+        }
+
+        prevBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + totalCards) % totalCards;
+            updateCarousel();
+        });
+
+        nextBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % totalCards;
+            updateCarousel();
+        });
+    </script>
+</body>
 </html>
