@@ -8,126 +8,135 @@
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
         crossorigin="anonymous" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/assets/css/login.css" />
     <title>QuickPick</title>
 </head>
 
 <body>
-    <div class="container" id="container">
 
-        <!-- SIGN UP FORM -->
-        <?php if (!isset($_GET['verify'])): ?>
-            <div class="form-container sign-up-container">
-                <form method="POST" action="/controllers/auth/register.php">
-                    <h1>Sign Up</h1>
-                    <input type="text" name="name" placeholder="Name" required />
+        <!-- Blue wavy background -->
+        <div class="blue-section"></div>
 
-                    <div style="display: flex; align-items: center; justify-content: center; gap: 5px;">
-                        <input type="text" name="countryCode" value="+63" maxlength="4"
-                            style="width: 60px; text-align: center;" readonly />
-                        <input type="text" name="phone" placeholder="9XXXXXXXXX" maxlength="10"
-                            pattern="9[0-9]{9}" required
-                            oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
-                    </div>
+        <!-- Login Container -->
+        <div class="container" id="container">
 
-                    <div class="password-input-wrapper">
-                        <input id="signup-password" type="password" name="password" placeholder="Password" required />
-                        <i class="fas fa-eye password-toggle-icon" id="toggleSignupPassword"></i>
-                    </div>
+            <!-- SIGN UP FORM -->
+            <?php if (!isset($_GET['verify'])): ?>
+                <div class="form-container sign-up-container">
+                    <form method="POST" action="/controllers/auth/register.php">
+                        <h1>Sign Up</h1>
+                        <input type="text" name="name" placeholder="Name" required />
 
-                    <div class="password-strength">
-                        <div class="password-strength-header">
-                            <span style="font-size: 11px;">Password Strength:</span>
-                            <span id="signup-strength-label"></span>
+                        <div style="display: flex; align-items: center; justify-content: center; gap: 5px;">
+                            <input type="text" name="countryCode" value="+63" maxlength="4"
+                                style="width: 60px; text-align: center;" readonly />
+                            <input type="text" name="phone" placeholder="9XXXXXXXXX" maxlength="10"
+                                pattern="9[0-9]{9}" required
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
                         </div>
-                        <div class="progress">
-                            <div id="signup-password-strength" class="progress-bar" role="progressbar"></div>
+
+                        <div class="password-input-wrapper">
+                            <input id="signup-password" type="password" name="password" placeholder="Password" required />
+                            <i class="fas fa-eye password-toggle-icon" id="toggleSignupPassword"></i>
                         </div>
-                        <ul class="password-strength-items">
-                            <li class="signup-low-upper-case">Lowercase &amp; Uppercase</li>
-                            <li class="signup-one-number">Number (0-9)</li>
-                            <li class="signup-one-special-char">Special character</li>
-                            <li class="signup-eight-character">8 characters min</li>
-                        </ul>
-                    </div>
 
-                    <div class="password-input-wrapper">
-                        <input id="signup-confirm-password" type="password" name="confirm" placeholder="Confirm Password" required />
-                        <i class="fas fa-eye password-toggle-icon" id="toggleSignupConfirmPassword"></i>
-                    </div>
+                        <div class="password-strength">
+                            <div class="password-strength-header">
+                                <span style="font-size: 11px;">Password Strength:</span>
+                                <span id="signup-strength-label"></span>
+                            </div>
+                            <div class="progress">
+                                <div id="signup-password-strength" class="progress-bar" role="progressbar"></div>
+                            </div>
+                            <ul class="password-strength-items">
+                                <li class="signup-low-upper-case">Lowercase &amp; Uppercase</li>
+                                <li class="signup-one-number">Number (0-9)</li>
+                                <li class="signup-one-special-char">Special character</li>
+                                <li class="signup-eight-character">8 characters min</li>
+                            </ul>
+                        </div>
 
-                    <input type="hidden" name="action" value="signup" />
-                    <button type="submit">Sign Up</button>
-                </form>
-            </div>
+                        <div class="password-input-wrapper">
+                            <input id="signup-confirm-password" type="password" name="confirm" placeholder="Confirm Password" required />
+                            <i class="fas fa-eye password-toggle-icon" id="toggleSignupConfirmPassword"></i>
+                        </div>
 
-            <!-- SIGN IN FORM -->
-            <div class="form-container sign-in-container">
-                <form method="POST" action="/controllers/auth/login.php">
-                    <h1>Sign In</h1>
+                        <input type="hidden" name="action" value="signup" />
+                        <button type="submit">Sign Up</button>
+                    </form>
+                </div>
 
-                    <div style="display: flex; align-items: center; justify-content: center; gap: 5px;">
-                        <input type="text" name="countryCode" value="+63" maxlength="4"
-                            style="width: 60px; text-align: center;" readonly />
-                        <input type="text" name="phone" placeholder="9XXXXXXXXX" maxlength="10"
-                            pattern="9[0-9]{9}" required
-                            oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
-                    </div>
+                <!-- SIGN IN FORM -->
+                <div class="form-container sign-in-container">
+                    <form method="POST" action="/controllers/auth/login.php">
+                        <h1>Sign In</h1>
 
-                    <input type="password" name="password" placeholder="Password" required />
-                    <input type="hidden" name="action" value="signin" />
-                    <a href="#">Forgot your password?</a>
-                    <button type="submit">Sign In</button>
-                </form>
-            </div>
-        <?php endif; ?>
+                        <div style="display: flex; align-items: center; justify-content: center; gap: 5px;">
+                            <input type="text" name="countryCode" value="+63" maxlength="4"
+                                style="width: 60px; text-align: center;" readonly />
+                            <input type="text" name="phone" placeholder="9XXXXXXXXX" maxlength="10"
+                                pattern="9[0-9]{9}" required
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
+                        </div>
 
-        <!-- VERIFY OTP FORM -->
-        <?php if (isset($_GET['verify'])): ?>
-            <div class="form-container sign-up-container" style="text-align:center;">
-                <form method="POST" action="/controllers/auth/verify_otp.php">
-                    <h1>Verify OTP</h1>
-                    <p style="color:#666;">Please enter the 6-digit code sent to your phone.</p>
+                        <input type="password" name="password" placeholder="Password" required />
+                        <input type="hidden" name="action" value="signin" />
+                        <a href="#">Forgot your password?</a>
+                        <button type="submit">Sign In</button>
+                    </form>
+                </div>
+            <?php endif; ?>
 
-                    <input
-                        type="text"
-                        name="otp"
-                        maxlength="6"
-                        pattern="\d{6}"
-                        required
-                        placeholder="Enter OTP"
-                        style="text-align:center; font-size:18px; letter-spacing:3px;" />
+            <!-- VERIFY OTP FORM -->
+            <?php if (isset($_GET['verify'])): ?>
+                <div class="form-container sign-up-container" style="text-align:center;">
+                    <form method="POST" action="/controllers/auth/verify_otp.php">
+                        <h1>Verify OTP</h1>
+                        <p style="color:#666;">Please enter the 6-digit code sent to your phone.</p>
 
-                    <input type="hidden" name="action" value="verify_otp" />
-                    <button type="submit">Verify</button>
-                </form>
+                        <input
+                            type="text"
+                            name="otp"
+                            maxlength="6"
+                            pattern="\d{6}"
+                            required
+                            placeholder="Enter OTP"
+                            style="text-align:center; font-size:18px; letter-spacing:3px;" />
 
-                <form method="POST" action="/controllers/auth/register.php" style="margin-top:10px;">
-                    <button type="submit" class="ghost" style="background:#6c757d;">Resend OTP</button>
-                </form>
-            </div>
-        <?php endif; ?>
+                        <input type="hidden" name="action" value="verify_otp" />
+                        <button type="submit">Verify</button>
+                    </form>
 
-        <!-- OVERLAY -->
-        <?php if (!isset($_GET['verify'])): ?>
-            <div class="overlay-container">
-                <div class="overlay">
-                    <div class="overlay-panel overlay-left">
-                        <h1>Welcome Back!</h1>
-                        <p>Please login with your personal info</p>
-                        <button class="ghost" id="signIn">Sign In</button>
-                    </div>
-                    <div class="overlay-panel overlay-right">
-                        <h1>Hello, Friend!</h1>
-                        <p>Enter your personal details and start your journey with us</p>
-                        <button class="ghost" id="signUp">Sign Up</button>
+                    <form method="POST" action="/controllers/auth/register.php" style="margin-top:10px;">
+                        <button type="submit" class="ghost" style="background:#6c757d;">Resend OTP</button>
+                    </form>
+                </div>
+            <?php endif; ?>
+
+            <!-- OVERLAY -->
+            <?php if (!isset($_GET['verify'])): ?>
+                <div class="overlay-container">
+                    <div class="overlay">
+                        <div class="overlay-panel overlay-left">
+                            <h1>Welcome Back!</h1>
+                            <p>Please login with your personal info</p>
+                            <button class="ghost" id="signIn">Sign In</button>
+                        </div>
+                        <div class="overlay-panel overlay-right">
+                            <h1>Hello, Friend!</h1>
+                            <p>Enter your personal details and start your journey with us</p>
+                            <button class="ghost" id="signUp">Sign Up</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        <?php endif; ?>
+            <?php endif; ?>
 
+        </div>
     </div>
-    <script src="../assets/js/login.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/js/login.js"></script>
 
     <body class="<?php echo isset($_GET['verify']) ? 'verify-active' : ''; ?>">
     </body>

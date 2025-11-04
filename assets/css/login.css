@@ -528,3 +528,153 @@ body.verify-active .overlay-container {
     font-size: 14px;
   }
 }
+/* End of login.css */
+
+
+    
+    /* Wavy blue section */
+    .blue-section {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 65%;
+        height: 100%;
+        background: #0099ff;
+        clip-path: path("M 300 0 C 250 50, 200 100, 250 150 C 300 200, 200 250, 220 300 C 240 350, 280 400, 200 450 C 150 500, 250 550, 230 600 C 210 650, 180 700, 250 750 C 300 800, 220 850, 240 900 C 260 950, 280 980, 300 1000 L 2000 1000 L 2000 0 Z");
+        z-index: 1;
+    }
+
+
+    /* Login Container */
+    .container {
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+        position: relative;
+        overflow: hidden;
+        width: 768px;
+        max-width: 100%;
+        min-height: 480px;
+        z-index: 2;
+    }
+
+    .form-container {
+        position: absolute;
+        top: 0;
+        height: 100%;
+        transition: all 0.6s ease-in-out;
+    }
+
+    .sign-in-container {
+        left: 0;
+        width: 50%;
+        z-index: 2;
+    }
+
+    .container.right-panel-active .sign-in-container {
+        transform: translateX(100%);
+    }
+
+    .sign-up-container {
+        left: 0;
+        width: 50%;
+        opacity: 0;
+        z-index: 1;
+    }
+
+    .container.right-panel-active .sign-up-container {
+        transform: translateX(100%);
+        opacity: 1;
+        z-index: 5;
+        animation: show 0.6s;
+    }
+
+    @keyframes show {
+        0%, 49.99% {
+            opacity: 0;
+            z-index: 1;
+        }
+        50%, 100% {
+            opacity: 1;
+            z-index: 5;
+        }
+    }
+
+    .overlay-container {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 50%;
+        height: 100%;
+        overflow: hidden;
+        transition: transform 0.6s ease-in-out;
+        z-index: 100;
+    }
+
+    .container.right-panel-active .overlay-container {
+        transform: translateX(-100%);
+    }
+
+    .overlay {
+        background: var(--secondary-color);
+        background: var(--gradient);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: 0 0;
+        color: #fff;
+        position: relative;
+        left: -100%;
+        height: 100%;
+        width: 200%;
+        transform: translateX(0);
+        transition: transform 0.6s ease-in-out;
+    }
+
+    .container.right-panel-active .overlay {
+        transform: translateX(50%);
+    }
+
+    .overlay-panel {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding: 0 40px;
+        text-align: center;
+        top: 0;
+        height: 100%;
+        width: 50%;
+        transform: translateX(0);
+        transition: transform 0.6s ease-in-out;
+    }
+
+    .overlay-left {
+        transform: translateX(-20%);
+    }
+
+    .container.right-panel-active .overlay-left {
+        transform: translateX(0);
+    }
+
+    .overlay-right {
+        right: 0;
+        transform: translateX(0);
+    }
+
+    .container.right-panel-active .overlay-right {
+        transform: translateX(20%);
+    }
+
+    form {
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+        padding: 0 50px;
+        height: 100%;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+   
