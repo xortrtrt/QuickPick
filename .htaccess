@@ -27,7 +27,7 @@ Options -Indexes
   Require all granted
 </FilesMatch>
 
-# Disable PHP execution in uploads
-<Directory "uploads">
-  php_flag engine off
-</Directory>
+# Disable PHP execution in uploads WITHOUT <Directory>
+<FilesMatch "^uploads/.*\.php$">
+    Require all denied
+</FilesMatch>
