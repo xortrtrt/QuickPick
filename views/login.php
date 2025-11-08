@@ -79,7 +79,10 @@
                             pattern="9[0-9]{9}" required
                             oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
                     </div>
-                    <input type="password" name="password" placeholder="Password" required />
+                    <div class="password-input-wrapper">
+                        <input type="password" name="password" id="signin-password" placeholder="Password" required>
+                        <i class="fas fa-eye password-toggle-icon" id="toggleSigninPassword"></i>
+                    </div>
                     <input type="hidden" name="action" value="signin" />
                     <a href="#">Forgot your password?</a>
                     <button type="submit">Sign In</button>
