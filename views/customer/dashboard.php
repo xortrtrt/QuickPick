@@ -50,23 +50,23 @@ $categories = getAvailableCategories($pdo, 2);
                         </div>
 
                         <div class="cart-icon-wrapper" id="headerCart">
-                            <div class="icon-circle">🛒</div>
-                            <span class="cart-badge" id="cartBadge">0</span>
+                            <a href="cart.php" class="icon-circle">🛒</a>
                         </div>
-
-                        <!-- USER DROPDOWN -->
-                        <div class="user-dropdown">
-                            <div class="icon-circle user-icon" id="userIcon">👤</div>
-                            <div class="dropdown-menu" id="userMenu">
-                                <a href="/views/customer/profile.php">Profile</a>
-                                <a href="/views/customer/settings.php">Settings</a>
-                                <a href="/controllers/auth/logout.php" class="logout-link">Logout</a>
-                            </div>
-                        </div>
-                        <!-- END USER DROPDOWN -->
                     </div>
+
+                    <!-- USER DROPDOWN -->
+                    <div class="user-dropdown">
+                        <div class="icon-circle user-icon" id="userIcon">👤</div>
+                        <div class="dropdown-menu" id="userMenu">
+                            <a href="/views/customer/profile.php">Profile</a>
+                            <a href="/views/customer/settings.php">Settings</a>
+                            <a href="/controllers/auth/logout.php" class="logout-link">Logout</a>
+                        </div>
+                    </div>
+                    <!-- END USER DROPDOWN -->
                 </div>
             </div>
+        </div>
         </div>
     </header>
 

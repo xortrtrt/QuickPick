@@ -6,29 +6,10 @@ if (!isset($_SESSION['customerID'])) {
 }
 
 include_once('../../includes/db_connect.php');
-include_once('../../includes/header.php');
+include('../../includes/functions.php');
+$products = getAvailableProducts($pdo);
 
-try {
-    // Fetch all available products using PDO
-    $stmt = $pdo->prepare("
-        SELECT 
-            p.productID, 
-            p.productName, 
-            p.description, 
-            p.price, 
-            p.stockQuantity, 
-            p.unit, 
-            p.imageURL, 
-            c.categoryName
-        FROM products p
-        LEFT JOIN categories c ON p.categoryID = c.categoryID
-        WHERE p.stockQuantity > 0 AND p.isActive = 1
-    ");
-    $stmt->execute();
-    $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    echo '<p>Error fetching products: ' . htmlspecialchars($e->getMessage()) . '</p>';
-}
+
 ?>
 
 
@@ -76,7 +57,7 @@ try {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
                     },
-                    credentials: 'include', // 👈 important: keeps PHP session cookies!
+                    credentials: 'include', // keeps PHP session cookies!
                     body: `product_id=${productID}`
                 })
 
