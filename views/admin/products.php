@@ -63,49 +63,8 @@ $adminName = $_SESSION['adminName'] ?? 'Admin';
 <body>
     <div style="display: flex;">
         <!-- Sidebar -->
-        <div class="sidebar">
-            <div class="logo-admin">
-                <div class="logo-icon">Q</div>
-                <span>QuickPick Admin</span>
-            </div>
-            <ul class="nav-menu">
-                <li class="nav-item">
-                    <a href="/views/admin/dashboard.php" class="nav-link">
-                        <i class="fas fa-chart-line"></i> Dashboard
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/views/admin/products.php" class="nav-link active">
-                        <i class="fas fa-box"></i> Products
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/views/admin/orders.php" class="nav-link">
-                        <i class="fas fa-shopping-cart"></i> Orders
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/views/admin/customers.php" class="nav-link">
-                        <i class="fas fa-users"></i> Customers
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/views/admin/inventory.php" class="nav-link">
-                        <i class="fas fa-warehouse"></i> Inventory
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/views/admin/categories.php" class="nav-link">
-                        <i class="fas fa-list"></i> Categories
-                    </a>
-                </li>
-                <li class="nav-item" style="margin-top: 40px;">
-                    <a href="/controllers/admin/logout.php" class="nav-link">
-                        <i class="fas fa-sign-out-alt"></i> Logout
-                    </a>
-                </li>
-            </ul>
-        </div>
+        <?php include("../../includes/admin-sidebar.php"); ?>
+
 
         <!-- Main Content -->
         <div class="main-content" style="flex: 1;">

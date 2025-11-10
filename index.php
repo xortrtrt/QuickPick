@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QuickPick Landing Page</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/css/landingpage.css" />
+    <link rel="stylesheet" href="/assets/css/customer-css/landingpage.css" />
 </head>
+
 <body>
     <div class="container-fluid">
         <!-- Home Tab -->
@@ -21,19 +23,19 @@
 
         <!-- Wavy overlay using SVG -->
         <svg class="wave-overlay" viewBox="0 0 300 1000" preserveAspectRatio="none">
-            <path d="M 0 0 C 80 80, 20 120, 50 200 S 20 280, 60 350 S 10 420, 55 500 S 15 580, 65 650 S 5 720, 50 800 S 20 880, 40 950 L 40 1000 L 0 1000 Z" 
-                  fill="#0099ff" 
-                  opacity="0.3"/>
-            <path d="M 50 0 C 120 100, 60 150, 90 250 S 50 350, 100 450 S 40 550, 95 650 S 35 750, 90 850 S 50 920, 80 1000" 
-                  fill="none" 
-                  stroke="#ffffff" 
-                  stroke-width="2"
-                  opacity="0.4"/>
-            <path d="M 100 0 C 160 120, 100 180, 130 300 S 90 420, 140 550 S 70 680, 125 800 S 85 900, 120 1000" 
-                  fill="none" 
-                  stroke="#0099ff" 
-                  stroke-width="3"
-                  opacity="0.5"/>
+            <path d="M 0 0 C 80 80, 20 120, 50 200 S 20 280, 60 350 S 10 420, 55 500 S 15 580, 65 650 S 5 720, 50 800 S 20 880, 40 950 L 40 1000 L 0 1000 Z"
+                fill="#0099ff"
+                opacity="0.3" />
+            <path d="M 50 0 C 120 100, 60 150, 90 250 S 50 350, 100 450 S 40 550, 95 650 S 35 750, 90 850 S 50 920, 80 1000"
+                fill="none"
+                stroke="#ffffff"
+                stroke-width="2"
+                opacity="0.4" />
+            <path d="M 100 0 C 160 120, 100 180, 130 300 S 90 420, 140 550 S 70 680, 125 800 S 85 900, 120 1000"
+                fill="none"
+                stroke="#0099ff"
+                stroke-width="3"
+                opacity="0.5" />
         </svg>
 
         <!-- Navigation -->
@@ -61,7 +63,8 @@
             <button class="btn btn-custom">LET'S GET STARTED!</button>
         </div>
     </div>
-    
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

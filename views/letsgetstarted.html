@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QuickPick - How It Works</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        overflow-x: hidden;
+        min-height: 100vh;
+        background: #f8f9fa;
+      } /* Wavy blue section with SVG path */
+      .blue-section {
+        position: fixed;
+        right: 0;
+        top: 0;
+        width: 65%;
+        height: 100%;
+        background: #0099ff;
+        clip-path: path(
+          "M 300 0 C 250 50, 200 100, 250 150 C 300 200, 200 250, 220 300 C 240 350, 280 400, 200 450 C 150 500, 250 550, 230 600 C 210 650, 180 700, 250 750 C 300 800, 220 850, 240 900 C 260 950, 280 980, 300 1000 L 2000 1000 L 2000 0 Z"
+        );
+        z-index: 0;
+      } /* Alternative wavy design using custom path */
+      .blue-section::before {
+        content: "";
+        position: absolute;
+        left: -80px;
+        top: 0;
+        width: 150px;
+        height: 100%;
+        background: #0099ff;
+        filter: blur(30px);
+        opacity: 0.6;
+      } /* Wavy SVG overlay for more organic waves */
+      .wave-overlay {
+        display: none;
+      }
+      .guide-container {
+        position: relative;
+        z-index: 2;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 20px;
+      }
+      .header {
+        text-align: center;
+        color: #0099ff;
+        margin-bottom: 60px;
+        animation: fadeInDown 0.8s ease-out;
+      }
+      .header h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 15px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .header p {
+        font-size: 1.3rem;
+        color: #333;
+      }
+      .steps-container {
+        display: grid;
+        gap: 30px;
+      }
+      .step-card {
+        background: white;
+        border-radius: 20px;
+        padding: 35px;
+        box-shadow: 0 10px 30px rgba(0, 153, 255, 0.15);
+        display: flex;
+        align-items: center;
+        gap: 30px;
+        transition: all 0.4s ease;
+        opacity: 0;
+        transform: translateX(-50px);
+        animation: slideInLeft 0.6s ease-out forwards;
+        position: relative;
+        z-index: 2;
+      }
+      .step-card:nth-child(even) {
+        transform: translateX(50px);
+        animation: slideInRight 0.6s ease-out forwards;
+      }
+      .step-card:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+      .step-card:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .step-card:nth-child(3) {
+        animation-delay: 0.3s;
+      }
+      .step-card:nth-child(4) {
+        animation-delay: 0.4s;
+      }
+      .step-card:nth-child(5) {
+        animation-delay: 0.5s;
+      }
+      .step-card:nth-child(6) {
+        animation-delay: 0.6s;
+      }
+      .step-card:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 15px 40px rgba(0, 153, 255, 0.25);
+      }
+      .step-number {
+        flex-shrink: 0;
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, #0099ff 0%, #006acc 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 2rem;
+        font-weight: bold;
+        box-shadow: 0 5px 15px rgba(0, 153, 255, 0.4);
+        transition: all 0.3s ease;
+      }
+      .step-card:hover .step-number {
+        transform: rotate(360deg) scale(1.1);
+      }
+      .step-icon {
+        flex-shrink: 0;
+        width: 70px;
+        height: 70px;
+        background: linear-gradient(135deg, #0099ff 0%, #00ccff 100%);
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 2rem;
+        transition: all 0.3s ease;
+      }
+      .step-card:hover .step-icon {
+        transform: scale(1.1) rotate(5deg);
+      }
+      .step-content {
+        flex: 1;
+      }
+      .step-content h3 {
+        color: #333;
+        font-size: 1.6rem;
+        margin-bottom: 12px;
+        font-weight: 600;
+      }
+      .step-content p {
+        color: #666;
+        font-size: 1.1rem;
+        line-height: 1.6;
+        margin: 0;
+      }
+      .cta-section {
+        text-align: center;
+        margin-top: 60px;
+        animation: fadeInUp 0.8s ease-out 0.7s backwards;
+        position: relative;
+        z-index: 2;
+      }
+      .cta-section h2 {
+        font-size: 2rem;
+        color: #333;
+        margin-bottom: 15px;
+        font-weight: 700;
+      }
+      .cta-section p {
+        font-size: 1.2rem;
+        color: #666;
+        margin-bottom: 35px;
+      }
+      .cta-buttons {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .cta-button-primary {
+        background: #0099ff;
+        color: white;
+        border: none;
+        padding: 18px 40px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        border-radius: 50px;
+        cursor: pointer;
+        box-shadow: 0 10px 30px rgba(0, 153, 255, 0.3);
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+        animation: throb 2s ease-in-out infinite;
+      }
+      .cta-button-primary:hover {
+        transform: translateY(-5px) scale(1.05);
+        box-shadow: 0 15px 40px rgba(0, 153, 255, 0.5);
+        background: #0077cc;
+        animation: none;
+      }
+      .cta-button-secondary {
+        background: white;
+        color: #0099ff;
+        border: 2px solid #0099ff;
+        padding: 16px 40px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        border-radius: 50px;
+        cursor: pointer;
+        box-shadow: 0 5px 20px rgba(0, 153, 255, 0.2);
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+      }
+      .cta-button-secondary:hover {
+        transform: translateY(-5px) scale(1.05);
+        box-shadow: 0 10px 30px rgba(0, 153, 255, 0.3);
+        background: #0099ff;
+        color: white;
+      }
+      .back-button {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        background: white;
+        color: #0099ff;
+        border: 2px solid #0099ff;
+        padding: 12px 25px;
+        font-size: 1rem;
+        font-weight: 600;
+        border-radius: 50px;
+        cursor: pointer;
+        box-shadow: 0 5px 15px rgba(0, 153, 255, 0.2);
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        z-index: 1000;
+      }
+      .back-button:hover {
+        transform: translateX(-5px);
+        box-shadow: 0 8px 25px rgba(0, 153, 255, 0.3);
+        background: #0099ff;
+        color: white;
+      }
+      @keyframes throb {
+        0%,
+        100% {
+          transform: scale(1);
+          box-shadow: 0 10px 30px rgba(0, 153, 255, 0.3);
+        }
+        50% {
+          transform: scale(1.05);
+          box-shadow: 0 15px 40px rgba(0, 153, 255, 0.5);
+        }
+      }
+      .connector-line {
+        width: 3px;
+        height: 30px;
+        background: linear-gradient(to bottom, #0099ff, #00ccff);
+        margin: 0 auto;
+        opacity: 0.5;
+        animation: fadeIn 0.8s ease-out;
+        position: relative;
+        z-index: 2;
+      }
+      @keyframes fadeInDown {
+        from {
+          opacity: 0;
+          transform: translateY(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes slideInLeft {
+        from {
+          opacity: 0;
+          transform: translateX(-50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+      @keyframes slideInRight {
+        from {
+          opacity: 0;
+          transform: translateX(50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 0.5;
+        }
+      }
+      @media (max-width: 992px) {
+        .blue-section {
+          width: 100%;
+          height: 50%;
+          top: 50%;
+          clip-path: path(
+            "M 0 150 C 100 100, 200 120, 300 100 S 500 90, 600 110 S 800 100, 900 120 S 1100 110, 1200 100 S 1400 90, 1500 100 L 1500 1000 L 0 1000 Z"
+          );
+        }
+        .header h1 {
+          font-size: 2rem;
+        }
+        .header p {
+          font-size: 1.1rem;
+        }
+        .step-card {
+          flex-direction: column;
+          text-align: center;
+          padding: 25px;
+        }
+        .step-number {
+          width: 60px;
+          height: 60px;
+          font-size: 1.5rem;
+        }
+        .step-icon {
+          width: 60px;
+          height: 60px;
+          font-size: 1.5rem;
+        }
+        .step-content h3 {
+          font-size: 1.3rem;
+        }
+        .step-content p {
+          font-size: 1rem;
+        }
+        .cta-buttons {
+          flex-direction: column;
+          align-items: center;
+        }
+        .cta-button-primary,
+        .cta-button-secondary {
+          width: 100%;
+          max-width: 300px;
+        }
+        .cta-section h2 {
+          font-size: 1.5rem;
+        }
+        .cta-section p {
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <!-- Blue wavy background -->
+      <div class="blue-section"></div>
+      <!-- Wavy overlay using SVG -->
+      <svg
+        class="wave-overlay"
+        viewBox="0 0 300 1000"
+        preserveAspectRatio="none"
+      >
+        <path
+          d="M 0 0 C 80 80, 20 120, 50 200 S 20 280, 60 350 S 10 420, 55 500 S 15 580, 65 650 S 5 720, 50 800 S 20 880, 40 950 L 40 1000 L 0 1000 Z"
+          fill="#0099ff"
+          opacity="0.3"
+        />
+        <path
+          d="M 50 0 C 120 100, 60 150, 90 250 S 50 350, 100 450 S 40 550, 95 650 S 35 750, 90 850 S 50 920, 80 1000"
+          fill="none"
+          stroke="#ffffff"
+          stroke-width="2"
+          opacity="0.4"
+        />
+        <path
+          d="M 100 0 C 160 120, 100 180, 130 300 S 90 420, 140 550 S 70 680, 125 800 S 85 900, 120 1000"
+          fill="none"
+          stroke="#0099ff"
+          stroke-width="3"
+          opacity="0.5"
+        />
+      </svg>
+      <!-- Back Button -->
+      <a href="/index.php" class="back-button">
+        <i class="fas fa-arrow-left"></i> Back
+      </a>
+      <!-- Guide Content -->
+      <div class="guide-container">
+        <div class="header">
+          <h1><i class="fas fa-rocket"></i> How It Works</h1>
+          <p>Your journey to easy online ordering starts here!</p>
+        </div>
+        <div class="steps-container">
+          <div class="step-card">
+            <div class="step-number">1</div>
+            <div class="step-icon"><i class="fas fa-user-plus"></i></div>
+            <div class="step-content">
+              <h3>Create Your Account</h3>
+              <p>
+                Sign up with your basic information to get started. It's quick,
+                easy, and secure!
+              </p>
+            </div>
+          </div>
+          <div class="connector-line"></div>
+          <div class="step-card">
+            <div class="step-number">2</div>
+            <div class="step-icon"><i class="fas fa-sign-in-alt"></i></div>
+            <div class="step-content">
+              <h3>Login to Your Account</h3>
+              <p>
+                Access your personalized dashboard using your credentials
+                anytime, anywhere.
+              </p>
+            </div>
+          </div>
+          <div class="connector-line"></div>
+          <div class="step-card">
+            <div class="step-number">3</div>
+            <div class="step-icon"><i class="fas fa-shopping-bag"></i></div>
+            <div class="step-content">
+              <h3>Browse & Place Your Order</h3>
+              <p>
+                Explore our wide selection of products and add your favorites to
+                the cart. Complete your order with just a few clicks!
+              </p>
+            </div>
+          </div>
+          <div class="connector-line"></div>
+          <div class="step-card">
+            <div class="step-number">4</div>
+            <div class="step-icon"><i class="fas fa-box-open"></i></div>
+            <div class="step-content">
+              <h3>We Prepare Your Order</h3>
+              <p>
+                Our admin team receives your order notification and carefully
+                prepares your items with care.
+              </p>
+            </div>
+          </div>
+          <div class="connector-line"></div>
+          <div class="step-card">
+            <div class="step-number">5</div>
+            <div class="step-icon"><i class="fas fa-mobile-alt"></i></div>
+            <div class="step-content">
+              <h3>Get Notified</h3>
+              <p>
+                Receive a text message on your cellphone when your order is
+                ready for pickup!
+              </p>
+            </div>
+          </div>
+          <div class="connector-line"></div>
+          <div class="step-card">
+            <div class="step-number">6</div>
+            <div class="step-icon"><i class="fas fa-store"></i></div>
+            <div class="step-content">
+              <h3>Pickup & Pay</h3>
+              <p>
+                Visit our store to collect your order and complete your payment
+                in person. Simple and convenient!
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="cta-section">
+          <h2>Ready to Get Started?</h2>
+          <p>
+            Create your account now and experience our seamless ordering process
+          </p>
+          <div class="cta-buttons">
+            <a href="/views/login.php" class="cta-button-primary">
+              <i class="fas fa-user-plus"></i> Create Your Account Now
+            </a>
+            <a href="/views/contact.php" class="cta-button-secondary">
+              <i class="fas fa-envelope"></i> Have Questions? Contact Us
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

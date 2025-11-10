@@ -1,4 +1,7 @@
 <?php
+// File: views/admin/dashboard.php
+// Refactored with sidebar include and DYNAMIC sales chart
+
 session_start();
 
 // Check if admin is logged in
@@ -9,16 +12,71 @@ if (!isset($_SESSION['adminID'])) {
 
 include("../../includes/db_connect.php");
 
-// Get dashboard statistics from your database
+// Get dashboard statistics
 $totalProducts = $pdo->query("SELECT COUNT(*) FROM products WHERE isActive = 1")->fetchColumn();
 $totalOrders = $pdo->query("SELECT COUNT(*) FROM orders")->fetchColumn();
 $totalCustomers = $pdo->query("SELECT COUNT(*) FROM customers")->fetchColumn();
 $totalRevenue = $pdo->query("SELECT COALESCE(SUM(totalAmount), 0) FROM orders WHERE status = 'completed'")->fetchColumn();
-
-// Get low stock products
 $lowStockProducts = $pdo->query("SELECT COUNT(*) FROM products WHERE stockQuantity < 10 AND isActive = 1")->fetchColumn();
 
-// Get recent orders with customer info
+// ============================================
+// DYNAMIC SALES DATA FOR LAST 7 DAYS
+// ============================================
+$salesData = [];
+$maxSales = 0;
+
+// Get sales data for last 7 days
+for ($i = 6; $i >= 0; $i--) {
+    $date = date('Y-m-d', strtotime("-$i days"));
+    $dayName = date('D', strtotime("-$i days"));
+
+    $stmt = $pdo->prepare("
+        SELECT COALESCE(SUM(totalAmount), 0) as daily_total, COUNT(*) as order_count
+        FROM orders
+        WHERE DATE(orderDate) = ? AND status = 'completed'
+    ");
+    $stmt->execute([$date]);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    $dailyTotal = floatval($result['daily_total'] ?? 0);
+    $orderCount = intval($result['order_count'] ?? 0);
+
+    $salesData[] = [
+        'date' => $date,
+        'day' => $dayName,
+        'total' => $dailyTotal,
+        'orders' => $orderCount,
+        'formatted' => '₱' . number_format($dailyTotal, 0)
+    ];
+
+    // Track max for scaling
+    if ($dailyTotal > $maxSales) {
+        $maxSales = $dailyTotal;
+    }
+}
+
+// If no sales, set max to 5000 for visual consistency
+if ($maxSales == 0) {
+    $maxSales = 5000;
+}
+
+// Calculate percentage heights for bars (0-100%)
+$chartData = [];
+foreach ($salesData as $day) {
+    $percentage = ($day['total'] / $maxSales) * 100;
+    if ($percentage < 5 && $day['total'] > 0) {
+        $percentage = 5; // Minimum height for visibility
+    }
+    $chartData[] = [
+        'day' => $day['day'],
+        'total' => $day['total'],
+        'formatted' => $day['formatted'],
+        'percentage' => $percentage,
+        'orders' => $day['orders']
+    ];
+}
+
+// Get recent orders
 $recentOrders = $pdo->prepare("
     SELECT o.orderID, c.name, o.totalAmount, o.status, o.orderDate
     FROM orders o
@@ -41,6 +99,9 @@ $topProducts = $pdo->prepare("
 ");
 $topProducts->execute();
 $topProductsList = $topProducts->fetchAll(PDO::FETCH_ASSOC);
+
+// Calculate 7-day total
+$totalWeekRevenue = array_sum(array_column($chartData, 'total'));
 
 $adminName = $_SESSION['adminName'] ?? 'Admin';
 ?>
@@ -85,6 +146,15 @@ $adminName = $_SESSION['adminName'] ?? 'Admin';
             font-weight: 700;
             color: #2d3748;
             margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chart-info {
+            font-size: 13px;
+            color: #718096;
+            font-weight: 500;
         }
 
         .order-item {
@@ -143,28 +213,147 @@ $adminName = $_SESSION['adminName'] ?? 'Admin';
             color: #2d3748;
         }
 
+        /* ============================================
+           DYNAMIC CHART STYLES
+           ============================================ */
         .chart-container {
-            height: 300px;
-            background: #f7fafc;
-            border-radius: 10px;
             display: flex;
             align-items: flex-end;
-            justify-content: space-around;
+            justify-content: space-between;
+            height: 320px;
+            background: linear-gradient(to top, #f7fafc 0%, transparent 100%);
+            border-radius: 10px;
             padding: 20px;
-            gap: 10px;
+            gap: 15px;
+            position: relative;
+        }
+
+        /* Horizontal grid lines */
+        .chart-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                repeating-linear-gradient(0deg,
+                    #e2e8f0 0px,
+                    #e2e8f0 1px,
+                    transparent 1px,
+                    transparent 60px);
+            pointer-events: none;
+            border-radius: 10px;
+        }
+
+        .chart-bar-wrapper {
+            flex: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+            justify-content: flex-end;
         }
 
         .chart-bar {
+            width: 100%;
             background: linear-gradient(135deg, #6dcff6, #3a9bdc);
-            border-radius: 5px 5px 0 0;
-            flex: 1;
-            min-height: 10px;
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
+            border-radius: 8px 8px 0 0;
+            transition: all 0.3s ease;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(109, 207, 246, 0.3);
+            cursor: pointer;
+        }
+
+        .chart-bar:hover {
+            background: linear-gradient(135deg, #3a9bdc, #2876b8);
+            box-shadow: 0 8px 20px rgba(58, 155, 220, 0.4);
+            transform: translateY(-4px);
+        }
+
+        .chart-bar-value {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-weight: 700;
+            color: #2d3748;
+            font-size: 13px;
+            white-space: nowrap;
+            margin-top: 8px;
+        }
+
+        .chart-day-label {
+            position: absolute;
+            bottom: -55px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            color: #718096;
+            font-weight: 600;
+        }
+
+        .chart-tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+            background: #2d3748;
             color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
             font-size: 12px;
             font-weight: 600;
+            white-space: nowrap;
+            opacity: 0;
+            transition: all 0.2s ease;
+            margin-bottom: 8px;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .chart-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+            border-top-color: #2d3748;
+        }
+
+        .chart-bar:hover .chart-tooltip {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+
+        .chart-summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 2px solid #e2e8f0;
+            font-size: 14px;
+        }
+
+        .summary-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .summary-label {
+            color: #718096;
+            font-weight: 500;
+        }
+
+        .summary-value {
+            color: #2d3748;
+            font-weight: 700;
+            font-size: 16px;
         }
 
         @media (max-width: 768px) {
@@ -181,61 +370,36 @@ $adminName = $_SESSION['adminName'] ?? 'Admin';
                 margin-right: 0;
                 margin-top: 10px;
             }
+
+            .chart-container {
+                height: 250px;
+                gap: 8px;
+                padding: 15px;
+            }
+
+            .chart-bar-value {
+                font-size: 10px;
+                bottom: -28px;
+            }
+
+            .chart-day-label {
+                font-size: 10px;
+                bottom: -50px;
+            }
+
+            .chart-summary {
+                flex-direction: column;
+                gap: 12px;
+                align-items: flex-start;
+            }
         }
     </style>
 </head>
 
 <body>
     <div class="dashboard-wrapper">
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <div class="logo-admin">
-                <div class="logo-icon">Q</div>
-                <span>QuickPick Admin</span>
-            </div>
-            <ul class="nav-menu">
-                <li class="nav-item">
-                    <a href="/views/admin/dashboard.php" class="nav-link active">
-                        <i class="fas fa-chart-line"></i> Dashboard
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/views/admin/products.php" class="nav-link">
-                        <i class="fas fa-box"></i> Products
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/views/admin/orders.php" class="nav-link">
-                        <i class="fas fa-shopping-cart"></i> Orders
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/views/admin/customers.php" class="nav-link">
-                        <i class="fas fa-users"></i> Customers
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/views/admin/inventory.php" class="nav-link">
-                        <i class="fas fa-warehouse"></i> Inventory
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/views/admin/categories.php" class="nav-link">
-                        <i class="fas fa-list"></i> Categories
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/views/admin/settings.php" class="nav-link">
-                        <i class="fas fa-list"></i> Settings
-                    </a>
-                </li>
-                <li class="nav-item" style="margin-top: 40px;">
-                    <a href="/controllers/admin/logout.php" class="nav-link">
-                        <i class="fas fa-sign-out-alt"></i> Logout
-                    </a>
-                </li>
-            </ul>
-        </div>
+        <!-- Include Sidebar Here -->
+        <?php include("../../includes/admin-sidebar.php"); ?>
 
         <!-- Main Content -->
         <div class="main-content main-dashboard">
@@ -336,30 +500,43 @@ $adminName = $_SESSION['adminName'] ?? 'Admin';
                 </div>
             </div>
 
-            <!-- Chart Section -->
+            <!-- DYNAMIC CHART SECTION -->
             <div class="card-section">
-                <h3>Sales Overview (Last 7 Days)</h3>
+                <h3>
+                    <span>📊 Sales Overview (Last 7 Days)</span>
+                    <span class="chart-info">Total: <strong>₱<?php echo number_format($totalWeekRevenue, 2); ?></strong></span>
+                </h3>
+
                 <div class="chart-container">
-                    <div class="chart-bar" style="height: 40%;">
-                        <span>₱2.5K</span>
+                    <?php foreach ($chartData as $day): ?>
+                        <div class="chart-bar-wrapper" title="<?php echo $day['day']; ?>">
+                            <div class="chart-bar" style="height: <?php echo $day['percentage']; ?>%;">
+                                <div class="chart-tooltip">
+                                    <div><?php echo $day['formatted']; ?></div>
+                                    <div style="font-size: 11px; margin-top: 2px;"><?php echo $day['orders']; ?> orders</div>
+                                </div>
+                            </div>
+                            <div class="chart-bar-value"><?php echo $day['formatted']; ?></div>
+                            <div class="chart-day-label"><?php echo $day['day']; ?></div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+
+                <div class="chart-summary">
+                    <div class="summary-item">
+                        <i class="fas fa-calendar-alt" style="color: #6dcff6;"></i>
+                        <span class="summary-label">Period:</span>
+                        <span class="summary-value"><?php echo date('M d', strtotime('-6 days')); ?> - <?php echo date('M d, Y'); ?></span>
                     </div>
-                    <div class="chart-bar" style="height: 65%;">
-                        <span>₱4.2K</span>
+                    <div class="summary-item">
+                        <i class="fas fa-shopping-bag" style="color: #48bb78;"></i>
+                        <span class="summary-label">Total Orders:</span>
+                        <span class="summary-value"><?php echo array_sum(array_column($chartData, 'orders')); ?></span>
                     </div>
-                    <div class="chart-bar" style="height: 55%;">
-                        <span>₱3.8K</span>
-                    </div>
-                    <div class="chart-bar" style="height: 80%;">
-                        <span>₱5.1K</span>
-                    </div>
-                    <div class="chart-bar" style="height: 45%;">
-                        <span>₱2.9K</span>
-                    </div>
-                    <div class="chart-bar" style="height: 70%;">
-                        <span>₱4.5K</span>
-                    </div>
-                    <div class="chart-bar" style="height: 60%;">
-                        <span>₱3.9K</span>
+                    <div class="summary-item">
+                        <i class="fas fa-money-bill" style="color: #ed8936;"></i>
+                        <span class="summary-label">Weekly Revenue:</span>
+                        <span class="summary-value">₱<?php echo number_format($totalWeekRevenue, 2); ?></span>
                     </div>
                 </div>
             </div>
@@ -367,15 +544,6 @@ $adminName = $_SESSION['adminName'] ?? 'Admin';
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Set active nav link
-        document.querySelectorAll('.nav-link').forEach(link => {
-            if (link.href === window.location.href) {
-                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-                link.classList.add('active');
-            }
-        });
-    </script>
 </body>
 
 </html>
