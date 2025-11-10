@@ -25,8 +25,8 @@ foreach ($cartItems as $item) {
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>QuickPick - Cart</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/css/customer-dashboard.css">
-    <link rel="stylesheet" href="/assets/css/cart.css">
+    <link rel="stylesheet" href="/assets/css/customer-css/customer-dashboard.css">
+    <link rel="stylesheet" href="/assets/css/customer-css/cart.css">
 </head>
 
 <body>
@@ -117,7 +117,7 @@ foreach ($cartItems as $item) {
     </section>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script src="/assets/js/cart.js"></script>
+    <script src="/assets/js/customer-js/cart.js"></script>
 </body>
 
 </html>

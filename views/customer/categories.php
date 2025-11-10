@@ -17,7 +17,7 @@ $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <head>
-    <link rel="stylesheet" href="/assets/css/categories.css">
+    <link rel="stylesheet" href="/assets/css/customer-css/categories.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <main class="categories-section">

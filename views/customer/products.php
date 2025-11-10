@@ -9,12 +9,10 @@ include_once('../../includes/db_connect.php');
 include('../../includes/functions.php');
 $products = getAvailableProducts($pdo);
 
-
 ?>
 
-
 <head>
-    <link rel="stylesheet" href="/assets/css/products.css">
+    <link rel="stylesheet" href="/assets/css/customer-css/products.css">
 </head>
 <main class="products-section">
     <div class="section-header">

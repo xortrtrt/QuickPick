@@ -63,7 +63,7 @@
     <script src="https://api.mapbox.com/mapbox-gl-js/v3.1.2/mapbox-gl.js"></script>
 
     <!-- Custom Map Script -->
-    <script src="../../assets/js/maps.js"></script>
+    <script src="../../assets/js/customer-js/maps.js"></script>
 </body>
 
 </html>

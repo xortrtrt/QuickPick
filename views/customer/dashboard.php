@@ -20,7 +20,7 @@ $categories = getAvailableCategories($pdo, 2);
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>QuickPick - Customer Dashboard</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/css/customer-dashboard.css">
+    <link rel="stylesheet" href="/assets/css/customer-css/customer-dashboard.css">
 
 </head>
 
@@ -163,7 +163,7 @@ $categories = getAvailableCategories($pdo, 2);
             <div class="dc-thumbs" aria-hidden="false"></div>
         </div>
     </section>
-    <script src="/assets/js/customer-dashboard.js"></script>
+    <script src="/assets/js/customer-js/customer-dashboard.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 

@@ -9,7 +9,7 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
         crossorigin="anonymous" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/assets/css/login.css" />
+    <link rel="stylesheet" href="/assets/css/customer-css/login.css" />
     <title>QuickPick</title>
 </head>
 
@@ -138,7 +138,7 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    <script src="/assets/js/login.js"></script>
+    <script src="/assets/js/customer-js/login.js"></script>
 
     <body class="<?php echo isset($_GET['verify']) ? 'verify-active' : ''; ?>">
     </body>
