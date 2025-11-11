@@ -1,10 +1,9 @@
 <?php
 // File: views/admin/order_details.php
-// View and manage order details - admin can modify items if customer changes mind
+// UPDATED: Cancelled items go to SEPARATE inventory, NOT back to main stock
 
 session_start();
 
-// Check if admin is logged in
 if (!isset($_SESSION['adminID'])) {
     header("Location: /views/admin/login.php");
     exit;
@@ -12,7 +11,6 @@ if (!isset($_SESSION['adminID'])) {
 
 include("../../includes/db_connect.php");
 
-// Get order ID from URL
 $orderID = intval($_GET['id'] ?? 0);
 
 if ($orderID <= 0) {
@@ -55,7 +53,6 @@ $cancelledStmt = $pdo->prepare("
 $cancelledStmt->execute([$orderID]);
 $cancelledItems = $cancelledStmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Handle item quantity reduction or removal
 $successMsg = '';
 $errorMsg = '';
 
@@ -84,11 +81,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     throw new Exception('Order item not found');
                 }
 
-                // Restore cancelled quantity to product stock
-                $restoreStock = $pdo->prepare("
-                    UPDATE products SET stockQuantity = stockQuantity + ? WHERE productID = ?
-                ");
-                $restoreStock->execute([$cancelledQuantity, $item['productID']]);
+                // Get product info for cancelled inventory
+                $productStmt = $pdo->prepare("SELECT productName, unit FROM products WHERE productID = ?");
+                $productStmt->execute([$item['productID']]);
+                $product = $productStmt->fetch(PDO::FETCH_ASSOC);
+
+                // IMPORTANT: Do NOT restore to main stock - items will go to cancelled_inventory via trigger
 
                 // Update order item quantity
                 if ($newQuantity > 0) {
@@ -102,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $deleteItem->execute([$orderItemID]);
                 }
 
-                // Record cancelled item
+                // Record cancelled item - trigger will automatically add to cancelled_inventory
                 $recordCancel = $pdo->prepare("
                     INSERT INTO cancelled_order_items 
                     (orderID, productID, productName, originalQuantity, cancelledQuantity, price, reason, cancelledAt)
@@ -111,12 +109,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $recordCancel->execute([
                     $orderID,
                     $item['productID'],
-                    $item['quantity'] > $newQuantity ? 'Quantity Reduced' : 'Item Removed',
+                    $product['productName'],
                     $item['quantity'],
                     $cancelledQuantity,
                     $item['price'],
-                    $_POST['reason'] ?? 'Customer changed mind',
-
+                    $_POST['reason'] ?? 'Customer changed mind'
                 ]);
 
                 // Recalculate order total
@@ -132,7 +129,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 $pdo->commit();
 
-                $successMsg = 'Order item updated successfully';
+                $successMsg = 'Order item updated successfully. Cancelled items moved to separate inventory.';
 
                 // Refresh order data
                 $orderStmt = $pdo->prepare("
@@ -174,9 +171,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $successMsg = 'Order marked as completed';
 
-            // Refresh order
             $orderStmt = $pdo->prepare("
-                SELECT o.*, c.name as customer_name, c.phoneNumber,c.address
+                SELECT o.*, c.name as customer_name, c.phoneNumber, c.address
                 FROM orders o
                 JOIN customers c ON o.customerID = c.customerID
                 WHERE o.orderID = ?
@@ -302,7 +298,6 @@ foreach ($orderItems as $item) {
             color: #2d3748;
         }
 
-        /* Customer Info */
         .customer-info {
             background: #f8f9fa;
             padding: 15px;
@@ -326,7 +321,6 @@ foreach ($orderItems as $item) {
             color: #2d3748;
         }
 
-        /* Order Items */
         .order-items-table {
             width: 100%;
             border-collapse: collapse;
@@ -357,11 +351,6 @@ foreach ($orderItems as $item) {
             color: #2d3748;
         }
 
-        .item-actions {
-            display: flex;
-            gap: 8px;
-        }
-
         .btn-modify {
             background: #bee3f8;
             color: #2c5282;
@@ -377,7 +366,6 @@ foreach ($orderItems as $item) {
             background: #90cdf4;
         }
 
-        /* Summary */
         .order-summary {
             background: #f8f9fa;
             padding: 20px;
@@ -420,7 +408,6 @@ foreach ($orderItems as $item) {
             color: #3a9bdc;
         }
 
-        /* Modal */
         .modify-modal {
             display: none;
             position: fixed;
@@ -516,7 +503,6 @@ foreach ($orderItems as $item) {
             background: #cbd5e0;
         }
 
-        /* Alert */
         .alert-message {
             padding: 16px;
             border-radius: 10px;
@@ -539,7 +525,6 @@ foreach ($orderItems as $item) {
             border-left: 4px solid #f56565;
         }
 
-        /* Cancelled Items */
         .cancelled-items-section {
             background: #fff5f5;
             border: 2px solid #fed7d7;
@@ -577,6 +562,24 @@ foreach ($orderItems as $item) {
             color: #718096;
         }
 
+        /* NEW: Info note about separate inventory */
+        .inventory-note {
+            background: #e0f2fe;
+            border-left: 4px solid #0284c7;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 13px;
+            color: #0c4a6e;
+            display: flex;
+            align-items: start;
+            gap: 8px;
+        }
+
+        .inventory-note i {
+            margin-top: 2px;
+        }
+
         .btn-complete {
             background: linear-gradient(135deg, #48bb78, #38a169);
             color: white;
@@ -586,9 +589,7 @@ foreach ($orderItems as $item) {
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            width: 100%;
         }
 
         .btn-complete:hover {
@@ -615,12 +616,9 @@ foreach ($orderItems as $item) {
 
 <body>
     <div class="order-details-wrapper">
-        <!-- Include Sidebar -->
         <?php include("../../includes/admin-sidebar.php"); ?>
 
-        <!-- Main Content -->
         <div class="main-order">
-            <!-- Header -->
             <div class="order-header">
                 <div class="order-header-content">
                     <h1>
@@ -639,7 +637,6 @@ foreach ($orderItems as $item) {
                 </div>
             </div>
 
-            <!-- Alert Messages -->
             <div class="order-content">
                 <?php if ($successMsg): ?>
                     <div class="alert-message alert-success">
@@ -655,9 +652,7 @@ foreach ($orderItems as $item) {
                     </div>
                 <?php endif; ?>
 
-                <!-- Order Details Grid -->
                 <div class="order-grid">
-                    <!-- Left Column - Items -->
                     <div>
                         <div class="order-card">
                             <div class="card-title">
@@ -695,7 +690,6 @@ foreach ($orderItems as $item) {
                                 <p style="color: #718096; text-align: center; padding: 20px;">No items in this order</p>
                             <?php endif; ?>
 
-                            <!-- Cancelled Items Section -->
                             <?php if (!empty($cancelledItems)): ?>
                                 <div class="cancelled-items-section">
                                     <div class="cancelled-items-title">
@@ -713,14 +707,21 @@ foreach ($orderItems as $item) {
                                             </div>
                                         </div>
                                     <?php endforeach; ?>
+
+                                    <!-- NEW: Info note about separate inventory -->
+                                    <div class="inventory-note">
+                                        <i class="fas fa-info-circle"></i>
+                                        <div>
+                                            <strong>Note:</strong> Cancelled items are stored in separate inventory, not returned to main stock.
+                                            View them in the dashboard statistics.
+                                        </div>
+                                    </div>
                                 </div>
                             <?php endif; ?>
                         </div>
                     </div>
 
-                    <!-- Right Column - Customer & Summary -->
                     <div>
-                        <!-- Customer Info -->
                         <div class="order-card" style="margin-bottom: 25px;">
                             <div class="card-title">
                                 <i class="fas fa-user"></i> Customer Information
@@ -736,17 +737,12 @@ foreach ($orderItems as $item) {
                                     <span class="info-value"><?php echo htmlspecialchars($order['phoneNumber']); ?></span>
                                 </div>
                                 <div class="info-row">
-                                    <span class="info-label">Email:</span>
-                                    <span class="info-value"><?php echo htmlspecialchars($order['email'] ?? 'N/A'); ?></span>
-                                </div>
-                                <div class="info-row">
                                     <span class="info-label">Address:</span>
                                     <span class="info-value"><?php echo htmlspecialchars($order['address'] ?? 'N/A'); ?></span>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Order Summary -->
                         <div class="order-card">
                             <div class="card-title">
                                 <i class="fas fa-receipt"></i> Order Summary
@@ -757,17 +753,12 @@ foreach ($orderItems as $item) {
                                     <span class="summary-label">Subtotal:</span>
                                     <span class="summary-value">₱<?php echo number_format($subtotal, 2); ?></span>
                                 </div>
-                                <div class="summary-row">
-                                    <span class="summary-label">Discount:</span>
-                                    <span class="summary-value">₱0.00</span>
-                                </div>
                                 <div class="summary-row summary-total">
                                     <span class="summary-label">Total:</span>
                                     <span class="summary-value">₱<?php echo number_format($order['totalAmount'], 2); ?></span>
                                 </div>
                             </div>
 
-                            <!-- Action Buttons -->
                             <?php if ($order['status'] === 'pending'): ?>
                                 <form method="POST" style="margin-top: 20px;">
                                     <input type="hidden" name="action" value="complete_order">
@@ -791,7 +782,6 @@ foreach ($orderItems as $item) {
         </div>
     </div>
 
-    <!-- Modify Item Modal -->
     <div class="modify-modal" id="modifyModal">
         <div class="modify-modal-content">
             <div class="modify-modal-header">

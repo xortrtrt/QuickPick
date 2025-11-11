@@ -1,10 +1,9 @@
 <?php
 // File: views/admin/dashboard.php
-// Refactored with sidebar include and DYNAMIC sales chart
+// Updated with cancelled items statistics
 
 session_start();
 
-// Check if admin is logged in
 if (!isset($_SESSION['adminID'])) {
     header("Location: /views/admin/login.php");
     exit;
@@ -19,13 +18,28 @@ $totalCustomers = $pdo->query("SELECT COUNT(*) FROM customers")->fetchColumn();
 $totalRevenue = $pdo->query("SELECT COALESCE(SUM(totalAmount), 0) FROM orders WHERE status = 'completed'")->fetchColumn();
 $lowStockProducts = $pdo->query("SELECT COUNT(*) FROM products WHERE stockQuantity < 10 AND isActive = 1")->fetchColumn();
 
-// ============================================
+// NEW: Get cancelled items statistics
+$totalCancelledItems = $pdo->query("SELECT COALESCE(SUM(cancelledQuantity), 0) FROM cancelled_inventory")->fetchColumn();
+
+// Get top cancelled products
+$topCancelledStmt = $pdo->prepare("
+    SELECT 
+        productName,
+        cancelledQuantity,
+        unit,
+        DATE_FORMAT(lastUpdated, '%M %d, %Y') as lastCancelled
+    FROM cancelled_inventory
+    WHERE cancelledQuantity > 0
+    ORDER BY cancelledQuantity DESC
+    LIMIT 5
+");
+$topCancelledStmt->execute();
+$topCancelledProducts = $topCancelledStmt->fetchAll(PDO::FETCH_ASSOC);
+
 // DYNAMIC SALES DATA FOR LAST 7 DAYS
-// ============================================
 $salesData = [];
 $maxSales = 0;
 
-// Get sales data for last 7 days
 for ($i = 6; $i >= 0; $i--) {
     $date = date('Y-m-d', strtotime("-$i days"));
     $dayName = date('D', strtotime("-$i days"));
@@ -49,23 +63,20 @@ for ($i = 6; $i >= 0; $i--) {
         'formatted' => '₱' . number_format($dailyTotal, 0)
     ];
 
-    // Track max for scaling
     if ($dailyTotal > $maxSales) {
         $maxSales = $dailyTotal;
     }
 }
 
-// If no sales, set max to 5000 for visual consistency
 if ($maxSales == 0) {
     $maxSales = 5000;
 }
 
-// Calculate percentage heights for bars (0-100%)
 $chartData = [];
 foreach ($salesData as $day) {
     $percentage = ($day['total'] / $maxSales) * 100;
     if ($percentage < 5 && $day['total'] > 0) {
-        $percentage = 5; // Minimum height for visibility
+        $percentage = 5;
     }
     $chartData[] = [
         'day' => $day['day'],
@@ -100,11 +111,10 @@ $topProducts = $pdo->prepare("
 $topProducts->execute();
 $topProductsList = $topProducts->fetchAll(PDO::FETCH_ASSOC);
 
-// Calculate 7-day total
 $totalWeekRevenue = array_sum(array_column($chartData, 'total'));
-
 $adminName = $_SESSION['adminName'] ?? 'Admin';
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -499,7 +509,30 @@ $adminName = $_SESSION['adminName'] ?? 'Admin';
                     <?php endif; ?>
                 </div>
             </div>
-
+            <!-- NEW: Top Cancelled Products -->
+            <div style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); border-left: 4px solid #f56565;">
+                <h3 class="section-title">
+                    <i class="fas fa-times-circle" style="color: #f56565;"></i>
+                    Cancelled Items
+                </h3>
+                <?php if (!empty($topCancelledProducts)): ?>
+                    <?php foreach ($topCancelledProducts as $cancelled): ?>
+                        <div class="cancelled-product-item">
+                            <div class="cancelled-product-info">
+                                <div class="cancelled-product-name"><?php echo htmlspecialchars($cancelled['productName']); ?></div>
+                                <div class="cancelled-product-meta">
+                                    <?php echo $cancelled['unit']; ?> • Last: <?php echo $cancelled['lastCancelled']; ?>
+                                </div>
+                            </div>
+                            <div class="cancelled-quantity">
+                                <?php echo $cancelled['cancelledQuantity']; ?>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p style="color: #718096; text-align: center;">No cancelled items</p>
+                <?php endif; ?>
+            </div>
             <!-- DYNAMIC CHART SECTION -->
             <div class="card-section">
                 <h3>
@@ -521,29 +554,35 @@ $adminName = $_SESSION['adminName'] ?? 'Admin';
                         </div>
                     <?php endforeach; ?>
                 </div>
-
-                <div class="chart-summary">
-                    <div class="summary-item">
-                        <i class="fas fa-calendar-alt" style="color: #6dcff6;"></i>
-                        <span class="summary-label">Period:</span>
-                        <span class="summary-value"><?php echo date('M d', strtotime('-6 days')); ?> - <?php echo date('M d, Y'); ?></span>
-                    </div>
-                    <div class="summary-item">
-                        <i class="fas fa-shopping-bag" style="color: #48bb78;"></i>
-                        <span class="summary-label">Total Orders:</span>
-                        <span class="summary-value"><?php echo array_sum(array_column($chartData, 'orders')); ?></span>
-                    </div>
-                    <div class="summary-item">
-                        <i class="fas fa-money-bill" style="color: #ed8936;"></i>
-                        <span class="summary-label">Weekly Revenue:</span>
-                        <span class="summary-value">₱<?php echo number_format($totalWeekRevenue, 2); ?></span>
+                <div style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);">
+                    <h3 style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <span style="font-size: 18px; font-weight: 700; color: #2d3748;">
+                            <i class="fas fa-chart-line"></i> Sales Overview (Last 7 Days)
+                        </span>
+                        <span style="font-size: 13px; color: #718096;">Total: <strong>₱<?php echo number_format($totalWeekRevenue, 2); ?></strong></span>
+                    </h3>
+                    <div class="chart-summary">
+                        <div class="summary-item">
+                            <i class="fas fa-calendar-alt" style="color: #6dcff6;"></i>
+                            <span class="summary-label">Period:</span>
+                            <span class="summary-value"><?php echo date('M d', strtotime('-6 days')); ?> - <?php echo date('M d, Y'); ?></span>
+                        </div>
+                        <div class="summary-item">
+                            <i class="fas fa-shopping-bag" style="color: #48bb78;"></i>
+                            <span class="summary-label">Total Orders:</span>
+                            <span class="summary-value"><?php echo array_sum(array_column($chartData, 'orders')); ?></span>
+                        </div>
+                        <div class="summary-item">
+                            <i class="fas fa-money-bill" style="color: #ed8936;"></i>
+                            <span class="summary-label">Weekly Revenue:</span>
+                            <span class="summary-value">₱<?php echo number_format($totalWeekRevenue, 2); ?></span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
