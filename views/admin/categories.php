@@ -202,7 +202,7 @@ $totalProducts = $pdo->query("SELECT COUNT(*) FROM products WHERE isActive = 1")
                     <h5 class="modal-title">Add New Category</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <form method="POST" action="/controllers/admin/add_category_form.php">
+                <form method="POST" action="/controllers/admin/add_category.php">
                     <div class="modal-body">
                         <div class="form-group">
                             <label class="form-label">Category Name *</label>
