@@ -913,12 +913,16 @@
 
         <div class="hero-content">
             <h1 class="hero-title">We bring the store to your door</h1>
-            <p class="hero-description">(DESCRIPTION)</p>
+            <p class="hero-description">
+                <span class="gold-box">
+                    Click, Confirm, Collect
+                </span>
+            </p>    
             <button class="shop-now-btn" aria-label="Shop now">Shop now →</button>
         </div>
 
         <div class="hero-image" aria-hidden="true">
-            <img src="/assets/images/heropic.png" alt="Shopping cart illustration">
+            <img src="/assets/images/newHero.png" alt="Shopping cart illustration">
         </div>
 
         <div class="hero-divider" aria-hidden="true">
